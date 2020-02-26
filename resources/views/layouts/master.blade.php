@@ -196,6 +196,12 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="/grades" class="nav-link {{ Request::is('grades*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-list-alt"></i>
+                <p>Nilai</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="/admins" class="nav-link {{ Request::is('admins*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user-tie"></i>
                 <p>Admin</p>

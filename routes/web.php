@@ -82,6 +82,14 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
 
     // mengambil dependent select option
     // Route::get('/getSemester/{id}/{class_id}', 'SchedulesController@getSemester');
+
+    Route::get('/grades', 'GradesController@index');
+    Route::get('grades/create', 'GradesController@create');
+    Route::post('grades', 'GradesController@store');
+    Route::get('grades/{grade}/edit', 'GradesController@edit');
+    Route::put('grades/{grade}', 'GradesController@update');
+    Route::delete('grades/{grade}', 'GradesController@destroy');
+    Route::get('grades/{grade}', 'GradesController@show');
 });
 
 //ajax
