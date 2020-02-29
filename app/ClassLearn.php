@@ -35,4 +35,9 @@ class ClassLearn extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

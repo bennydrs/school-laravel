@@ -11,10 +11,8 @@ class SchedulesController extends Controller
 
     public function index(Request $request)
     {
-        // dd(Input::get('kelas'));
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
-
 
         $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
         return view('jadwal.index', compact('classes', 'semesters', 'schedule'));
