@@ -18,6 +18,11 @@ class Grade extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
+
     // public function schedule()
     // {
     //     return $this->hasMany(Schedule::class);

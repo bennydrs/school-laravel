@@ -44,7 +44,6 @@ class ClassLearnsController extends Controller
         $request->validate(
             [
                 'class_room_id' => 'required',
-                'semester_id' => 'required',
                 'subject_id' => 'required',
             ],
             [
@@ -52,7 +51,7 @@ class ClassLearnsController extends Controller
             ]
         );
 
-        $classLearn = ClassLearn::where('class_room_id', $request->class_room_id)->where('semester_id', $request->semester_id)->where('subject_id', $request->subject_id)->first();
+        $classLearn = ClassLearn::where('class_room_id', $request->class_room_id)->where('subject_id', $request->subject_id)->first();
         if ($classLearn != null) {
             return redirect('/class-learns/create')->with('error', 'Data kelas ajar sudah ada!')->withInput();
         }
@@ -95,7 +94,7 @@ class ClassLearnsController extends Controller
      */
     public function update(Request $request, ClassLearn $classLearn)
     {
-        $class = ClassLearn::where('class_room_id', $request->class_room_id)->where('semester_id', $request->semester_id)->where('subject_id', $request->subject_id)->first();
+        $class = ClassLearn::where('class_room_id', $request->class_room_id)->where('subject_id', $request->subject_id)->first();
         if ($class && $class->id != $classLearn->id) {
             return redirect('class-learns/' . $classLearn->id . '/edit')->with('error', 'Data kelas ajar sudah ada!')->withInput();
         }
@@ -127,12 +126,12 @@ class ClassLearnsController extends Controller
             ->addColumn('kelas', function ($cl) {
                 return $cl->classRoom->nama;
             })
-            ->addColumn('semester', function ($cl) {
-                return $cl->semester->semester;
-            })
-            ->addColumn('tahun', function ($cl) {
-                return $cl->semester->tahun_ajaran;
-            })
+            // ->addColumn('semester', function ($cl) {
+            //     return $cl->semester->semester;
+            // })
+            // ->addColumn('tahun', function ($cl) {
+            //     return $cl->semester->tahun_ajaran;
+            // })
             ->addColumn('mapel', function ($cl) {
                 return $cl->subject->nama;
             })

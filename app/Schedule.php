@@ -20,6 +20,11 @@ class Schedule extends Model
         return $this->belongsTo(Teacher::class);
     }
 
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
+
     // public function grade()
     // {
     //     return $this->belongsTo(Grade::class);

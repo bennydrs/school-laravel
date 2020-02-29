@@ -90,7 +90,7 @@
                      <td>{{ $grade->nilai_uts }}</td>
                      <td>{{ $grade->nilai_uas }}</td>
                      {{-- <td>{{ $grade->schedule->teacher->nama }}</td> --}}
-                     {{-- <td>{{ $grade->classLearn->semester->semester }}</td> --}}
+                     <td>{{ $grade->semester->semester }}</td>
                      <td>
                         <a href="/grades/{{ $grade->id }}/edit" class="btn btn-warning btn-sm">edit</a>
                         {{-- <form action="/grades/{{ $grade->id }}" method="post" class="d-inline delete">

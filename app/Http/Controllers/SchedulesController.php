@@ -14,7 +14,7 @@ class SchedulesController extends Controller
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
 
-        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
         return view('jadwal.index', compact('classes', 'semesters', 'schedule'));
     }
 
@@ -22,7 +22,7 @@ class SchedulesController extends Controller
     {
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
-        $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
+        $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_id)->get();
         return view('jadwal.create', compact('class', 'classLearns', 'semester'));
     }
 

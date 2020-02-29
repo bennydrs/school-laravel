@@ -46,7 +46,8 @@
          <div class="card-header">
             <div class="card-title">
                Data Jadwal Kelas {{ $schedule[0]->classLearn->classRoom->nama }} Semester
-               {{$schedule[0]->classLearn->semester->tahun_ajaran .' | '. $schedule[0]->classLearn->semester->semester   }}
+               {{-- {{$schedule[0]->classLearn->semester->tahun_ajaran .' | '. $schedule[0]->classLearn->semester->semester   }}
+               --}}
             </div>
          </div>
 
@@ -77,7 +78,7 @@
                      {{-- <td>{{ $s->jam_selesai }}</td> --}}
                      <td>{{ $s->classLearn->subject->nama }}</td>
                      <td>{{ $s->teacher->nama }}</td>
-                     <td>{{ $s->classLearn->semester->semester }}</td>
+                     <td>{{ $s->semester->semester }}</td>
                      <td>
                         <a href="/schedules/{{ $s->id }}/edit" class="btn btn-warning btn-sm">edit</a>
                         <form action="/schedules/{{ $s->id }}" method="post" class="d-inline delete">

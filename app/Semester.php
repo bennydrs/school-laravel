@@ -12,4 +12,14 @@ class Semester extends Model
     {
         return $this->hasMany(ClassLearn::class);
     }
+
+    public function schedule()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

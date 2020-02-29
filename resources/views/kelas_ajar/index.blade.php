@@ -21,8 +21,8 @@
                      <th>No</th>
                      {{-- <th>Kode Kelas Ajar</th> --}}
                      <th>Kelas</th>
-                     <th>Semester</th>
-                     <th>Tahun Ajaran</th>
+                     {{-- <th>Semester</th>
+                     <th>Tahun Ajaran</th> --}}
                      <th>Mata Pelajaran</th>
                      {{-- <th>Pengajar</th> --}}
                      <th>Aksi</th>
@@ -48,8 +48,8 @@
             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
             // {data: 'kode_kelas', name: 'kode_kelas'},
             {data: 'kelas', name: 'kelas'},
-            {data: 'semester', name: 'semester'},
-            {data: 'tahun', name: 'tahun'},
+            // {data: 'semester', name: 'semester'},
+            // {data: 'tahun', name: 'tahun'},
             {data: 'mapel', name: 'mapel'},
             // {data: 'pengajar', name: 'pengajar'},
             {data: 'aksi', name: 'aksi'},
