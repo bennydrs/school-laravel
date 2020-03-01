@@ -32,4 +32,15 @@ class Student extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+
+    // public function rataRata()
+    // {
+    //     $total = 0;
+    //     // $totalRequests = \App\Grade::all();
+    //     foreach ($this->grade as $gr) {
+    //         // dd($gr);
+    //         $total = $total + $gr->nilai_tugas_2;
+    //     }
+    //     return $total;
+    // }
 }

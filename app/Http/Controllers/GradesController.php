@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Grade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class GradesController extends Controller
 {
@@ -26,16 +28,40 @@ class GradesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($class_id, $semester_id)
+    public function create($class_id, $semester_id, Request $request)
     {
+        $id = $request->subject;
+
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
-        $students = \App\Student::where('class_room_id', $class_id)->get();
-        // $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
-        // $classLearn = \App\ClassLearn::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
-        $classLearn = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
+        // $students = \App\Student::where('class_room_id', $class_id)->get();
+        // $students = \App\Student::where('students.class_room_id', $class_id)
+        //     // ->join('grades', 'grades.student_id', '=', 'students.id')
+        //     ->whereNotExists(function ($query) use ($id) {
+        //         $query->select(DB::raw(1))
+        //             ->from('grades')
+        //             // ->join('grades', 'grades.student_id', '=', 'students.id')
+        //             // ->join('c1', 'c1.b_id', '=', 'grades.id')
+        //             ->whereRaw('grades.class_learn_id', '=', $id);
+        //     })->get();
+        $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
 
-        return view('nilai.create', compact('class', 'classLearn', 'semester', 'students'));
+        if ($request->all()) {
+            $students = DB::table('students')->where('class_room_id', $class_id)
+                ->whereNotExists(function ($query) use ($id) {
+                    $query->select(DB::raw(1))
+                        ->from('grades')
+                        ->whereRaw('grades.class_learn_id =' . $id)
+                        ->whereRaw('grades.student_id = students.id');
+                })
+                ->get();
+
+            return view('nilai.create', compact('class', 'schedule', 'semester', 'students'));
+        } else {
+            return view('nilai.create', compact('class', 'schedule', 'semester'));
+        }
+
+        // $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
     }
 
     /**

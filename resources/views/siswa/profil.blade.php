@@ -22,7 +22,7 @@
 
             <ul class="list-group list-group-unbordered mb-3">
                <li class="list-group-item">
-                  <b>Mata Pelajaran</b> <a class="float-right">{{ !empty($classLearn) ? $classLearn->count():'0' }}</a>
+                  <b>Mata Pelajaran</b> <a class="float-right">{{ !empty($grades) ? $grades->count():'0' }}</a>
                </li>
                <li class="list-group-item">
                   <b>Nilai Rata-rata</b> <a class="float-right">80,5</a>
@@ -81,6 +81,7 @@
       </div>
       <!-- /.card -->
    </div>
+
    <!-- /.col -->
    <div class="col-md-9">
       <div class="card">
@@ -101,26 +102,42 @@
                   <option value="{{ $item->id }}">{{ $item->tahun_ajaran .' | '. $item->semester }}</option>
                   @endforeach
                   </select> --}}
+
                   <table class="table table-hover">
                      <thead>
                         <tr>
                            <th>No</th>
                            <th>Mata Pelajaran</th>
-                           <th>Guru</th>
+                           {{-- <th>Guru</th> --}}
                            <th>Kelas</th>
                            <th>Semester</th>
-                           <th>Nilai</th>
+                           <th>Nilai Tugas</th>
+                           <th>Nilai UTS</th>
+                           <th>Nilai UAS</th>
+                           <th>Rata2</th>
                         </tr>
                      </thead>
                      <tbody id="subject">
-                        @foreach ($classLearn as $cl)
+                        @foreach ($grades as $grade)
+                        @php
+                        $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_1;
+                        $rata2tugas = $jmltugas / 2;
+
+                        $tugas = $rata2tugas * 25/100;
+                        $uts = $grade->nilai_uts * 35/100;
+                        $uas = $grade->nilai_uas * 40/100;
+                        $rata2 = $tugas + $uts + $uas;
+                        @endphp
                         <tr>
                            <td>{{ $loop->iteration }}</td>
-                           <td>{{ $cl->subject->nama }}</td>
-                           <td>{{ $cl->teacher->nama }}</td>
-                           <td>{{ $cl->classRoom->nama }}</td>
-                           <td>{{ $cl->semester->tahun_ajaran .' | '. $cl->semester->semester}}</td>
-                           <td>80</td>
+                           <td>{{ $grade->classLearn->subject->nama }}</td>
+                           {{-- <td>{{ $grade->schedule->teacher->nama }}</td> --}}
+                           <td>{{ $grade->classLearn->classRoom->nama }}</td>
+                           <td>{{ $grade->semester->tahun_ajaran .' | '. $grade->semester->semester}}</td>
+                           <td>{{ $rata2tugas }}</td>
+                           <td>{{ $grade->nilai_uts }}</td>
+                           <td>{{ $grade->nilai_uas }}</td>
+                           <td>{{ $rata2 }}</td>
                         </tr>
                         @endforeach
                      </tbody>

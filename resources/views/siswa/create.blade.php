@@ -17,7 +17,7 @@
          @php
          $default = 1000;
          $tahunMasuk = date('Y');
-         $nis = $tahunMasuk .= $default + 1;
+         $nis = $tahunMasuk .= $default++;
          @endphp
 
          <form method="post" action="/students" role="form" enctype="multipart/form-data">

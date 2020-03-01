@@ -44,7 +44,7 @@
       <div class="card">
          <div class="card-header">
             <div class="card-title">
-               Data Nilai Kelas {{ $grades[0]->classLearn->classRoom->nama }} Semester
+               Data Nilai Kelas
                {{-- {{$grades[0]->classLearn->semester->tahun_ajaran .' | '. $grades[0]->classLearn->semester->semester   }}
                --}}
 
@@ -52,13 +52,7 @@
          </div>
 
          <div class="card-body">
-            {{-- <select name="class_learn_id" id="">
-               @foreach ($classLearn->unique('class_learn_id') as $cl)
-               <option value="{{ $cl->id }}">
-            {{ $cl->classLearn->subject->nama}}</option>
-            @endforeach
-            <option value="">mtk</option>
-            </select> --}}
+
             <a href="/grades/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/create"
                class="btn btn-primary btn-sm mb-3">Tambah Nilai</a>
 

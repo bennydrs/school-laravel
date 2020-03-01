@@ -88,8 +88,9 @@ class StudentsController extends Controller
      */
     public function show(Student $student)
     {
-        $classLearn = \App\ClassLearn::where('class_room_id', '=', $student->class_room_id)->get();
-        return view('siswa.profil', compact('student', 'classLearn'));
+        // $classLearn = \App\ClassLearn::where('class_room_id', '=', $student->class_room_id)->get();
+        $grades = \App\Grade::where('student_id', '=', $student->id)->get();
+        return view('siswa.profil', compact('student', 'grades'));
     }
 
     /**
