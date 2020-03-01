@@ -14,11 +14,16 @@
 use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'AuthController@login')->name('login');
-Route::post('/login', 'AuthController@proses');
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', 'AuthController@login')->name('login');
+    Route::post('/login', 'AuthController@proses');
+    //Auth routes for non-authenticated users
+});
 Route::get('/logout', 'AuthController@logout');
 
 Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
+    Route::get('/dashboard', 'DashboardController@index');
+
     Route::get('/students', 'StudentsController@index');
     Route::get('students/create', 'StudentsController@create');
     Route::post('students', 'StudentsController@store');
@@ -91,12 +96,17 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('grades/{grade}', 'GradesController@show');
 });
 
-//ajax
-
-Route::group(['middleware' => ['auth', 'checkRole:admin,siswa']], function () {
-    Route::get('/dashboard', 'DashboardController@index');
+Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'], function () {
+    Route::get('/dashboard', 'DashboardController@student');
+    Route::get('/profile', 'StudentsController@profileStudent');
 });
 
+Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {
+    Route::get('/dashboard', 'DashboardController@teacher');
+    Route::get('/profile', 'TeachersController@profileTeacher');
+});
+
+//ajax
 // get data student untuk datatable serverside
 Route::get('getdatastudents', [
     'uses' => 'StudentsController@getdatastudent',
