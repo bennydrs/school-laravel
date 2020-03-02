@@ -167,10 +167,18 @@ class TeachersController extends Controller
             ->tojson();
     }
 
-    public function profileTeacher(Teacher $teacher)
+    public function profileTeacher()
     {
         // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
         $teacher = Teacher::find(auth()->user()->teacher->id);
         return view('user.guru.profil', compact('teacher'));
+    }
+
+    public function schedulesTeacher(Request $request)
+    {
+        $semesters = \App\Semester::all();
+        $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->where('semester_id', '=', $request->semester)->get();
+        // $teacher = Teacher::find(auth()->user()->teacher->id);
+        return view('user.guru.jadwal', compact('schedules', 'semesters'));
     }
 }

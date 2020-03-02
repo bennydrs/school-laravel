@@ -181,4 +181,12 @@ class StudentsController extends Controller
         $student = Student::find(auth()->user()->student->id);
         return view('user.siswa.profil', compact('student'));
     }
+
+    public function schedulesStudent(Request $request)
+    {
+        $classes = \App\ClassRoom::all();
+        $semesters = \App\Semester::all();
+        $schedules = \App\Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+        return view('user.siswa.jadwal', compact('schedules', 'classes', 'semesters'));
+    }
 }

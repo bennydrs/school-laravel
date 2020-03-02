@@ -237,7 +237,8 @@
                   </li>
 
                   <li class="nav-item">
-                     <a href="/student/jadwal" class="nav-link {{ Request::is('student/jadwal') ? 'active' : '' }}">
+                     <a href="/student/schedules"
+                        class="nav-link {{ Request::is('student/schedules') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-table"></i>
                         <p>Jadwal</p>
                      </a>
@@ -264,6 +265,14 @@
                      <a href="/teacher/profile" class="nav-link {{ Request::is('teacher/profile') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Profil</p>
+                     </a>
+                  </li>
+
+                  <li class="nav-item">
+                     <a href="/teacher/schedules"
+                        class="nav-link {{ Request::is('teacher/schedules') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>Jadwal</p>
                      </a>
                   </li>
 

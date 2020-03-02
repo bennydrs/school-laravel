@@ -99,12 +99,14 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
 Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'], function () {
     Route::get('/dashboard', 'DashboardController@student');
     Route::get('/profile', 'StudentsController@profileStudent');
+    Route::get('/schedules', 'StudentsController@schedulesStudent');
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {
     Route::get('/dashboard', 'DashboardController@teacher');
     Route::get('/profile', 'TeachersController@profileTeacher');
-    Route::get('/teacher/edit-profile', 'TeachersController@editProfileTeacher');
+    Route::get('/edit-profile', 'TeachersController@editProfileTeacher');
+    Route::get('/schedules', 'TeachersController@schedulesTeacher');
 });
 
 //ajax
