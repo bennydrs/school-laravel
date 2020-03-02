@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'
 Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {
     Route::get('/dashboard', 'DashboardController@teacher');
     Route::get('/profile', 'TeachersController@profileTeacher');
+    Route::get('/teacher/edit-profile', 'TeachersController@editProfileTeacher');
 });
 
 //ajax

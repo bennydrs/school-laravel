@@ -174,4 +174,11 @@ class StudentsController extends Controller
             ->rawColumns(['aksi', 'kelas'])
             ->tojson();
     }
+
+    public function profileStudent()
+    {
+        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $student = Student::find(auth()->user()->student->id);
+        return view('user.siswa.profil', compact('student'));
+    }
 }

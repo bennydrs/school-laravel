@@ -166,4 +166,11 @@ class TeachersController extends Controller
             ->rawColumns(['aksi'])
             ->tojson();
     }
+
+    public function profileTeacher(Teacher $teacher)
+    {
+        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $teacher = Teacher::find(auth()->user()->teacher->id);
+        return view('user.guru.profil', compact('teacher'));
+    }
 }

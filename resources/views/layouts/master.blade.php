@@ -244,7 +244,7 @@
                   </li>
 
                   <li class="nav-item">
-                     <a href="/student/profil" class="nav-link {{ Request::is('student/profil') ? 'active' : '' }}">
+                     <a href="/student/profile" class="nav-link {{ Request::is('student/profile') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Profil</p>
                      </a>
