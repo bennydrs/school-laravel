@@ -260,6 +260,13 @@
                      </a>
                   </li>
 
+                  <li class="nav-item">
+                     <a href="/teacher/profile" class="nav-link {{ Request::is('teacher/profile') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Profil</p>
+                     </a>
+                  </li>
+
                   @endif
 
                   <li class="nav-item">
@@ -374,38 +381,59 @@
    <script src="{{ asset('assets/js/script.js') }}"></script>
    <script>
       @if (Session::has('status'))
-      toastr.success("{{ session('status') }}", "Berhasil")   
-  @endif
-  @if (Session::has('error'))
-      toastr.error("{{ session('error') }}", "Gagal")   
-  @endif
+         toastr.success("{{ session('status') }}", "Berhasil")   
+      @endif
+      @if (Session::has('error'))
+         toastr.error("{{ session('error') }}", "Gagal")   
+      @endif
 
-  $('select').select2({
-    theme: 'bootstrap4',
-});
+      $('select').select2({
+         theme: 'bootstrap4',
+      });
 
-$('.jam').datetimepicker({
-    format: 'HH:mm',
-    stepping: 30,
-    icons: {
-      up: 'fas fa-chevron-up',
-      down: 'fas fa-chevron-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right'
-    }
-  })
+      $('.jam').datetimepicker({
+         format: 'HH:mm',
+         stepping: 30,
+         icons: {
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right'
+         }
+      })
 
-  $('.date').datetimepicker({
-    format: 'YYYY-MM-DD',
-    locale: 'en',
-    sideBySide: true,
-    icons: {
-      up: 'fas fa-chevron-up',
-      down: 'fas fa-chevron-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right'
-    }
-  })
+      $('.date').datetimepicker({
+         format: 'YYYY-MM-DD',
+         locale: 'en',
+         sideBySide: true,
+         icons: {
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right'
+         }
+      })
+   </script>
+   <script>
+      $(document).ready(function() {
+        
+        $('.btn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<span class="spinner-border spinner-border-sm"></span> Loading..';
+          if ($(this).html() !== loadingText) {
+            $this.data('original-text', $(this).html());
+            $this.html(loadingText);
+          }
+          setTimeout(function() {
+            $this.html($this.data('original-text'));
+          }, Date.now()-timerStart);
+            
+         //  if( !$('#username').prop('validity').valid ){
+         //    $this.html($this.data('original-text'));
+         //  }
+          
+        });
+      })
    </script>
 
    @yield('script')
