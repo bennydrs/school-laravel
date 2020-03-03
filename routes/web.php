@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::delete('students/{student}', 'StudentsController@destroy');
     Route::get('students/{student}', 'StudentsController@show');
 
+    Route::get('/class-students', 'StudentsController@classStudent');
+
     Route::get('/teachers', 'TeachersController@index');
     Route::get('teachers/create', 'TeachersController@create');
     Route::post('teachers', 'TeachersController@store');
@@ -67,6 +69,7 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('class-learns/{classLearn}/edit', 'ClassLearnsController@edit');
     Route::put('class-learns/{classLearn}', 'ClassLearnsController@update');
     Route::delete('class-learns/{classLearn}', 'ClassLearnsController@destroy');
+
 
     Route::get('/admins', 'AdminsController@index');
     Route::get('admins/create', 'AdminsController@create');

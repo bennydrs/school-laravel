@@ -14,7 +14,6 @@ class ClassRoom extends Model
         return $this->BelongsTo(Teacher::class);
     }
 
-
     public function classLearn()
     {
         return $this->hasMany(ClassLearn::class);
@@ -23,5 +22,9 @@ class ClassRoom extends Model
     public function student()
     {
         return $this->hasOne(Student::class);
+    }
+    public function setClass()
+    {
+        return $this->hasMany(SetClass::class);
     }
 }

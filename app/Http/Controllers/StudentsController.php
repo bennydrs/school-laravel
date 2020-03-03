@@ -175,6 +175,17 @@ class StudentsController extends Controller
             ->tojson();
     }
 
+    public function classStudent(Request $request)
+    {
+        $classes = \App\ClassRoom::all();
+        $semesters = \App\Semester::all();
+        $classStudents = \App\SetClass::where('semester_id', '=', $request->semester)->get();
+        foreach ($classStudents as $c) {
+            // dd(isset($s->student->nama) ?  ucfirst($s->student->nama);
+        }
+        return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters'));
+    }
+
     public function profileStudent()
     {
         // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();

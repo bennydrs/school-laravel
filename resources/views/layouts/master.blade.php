@@ -192,6 +192,13 @@
                   </li>
 
                   <li class="nav-item">
+                     <a href="/class-students" class="nav-link {{ Request::is('class-students*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <p>Kelas Siswa</p>
+                     </a>
+                  </li>
+
+                  <li class="nav-item">
                      <a href="/absents" class="nav-link {{ Request::is('absents*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-table"></i>
                         <p>Absensi Siswa</p>

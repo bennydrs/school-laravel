@@ -33,6 +33,10 @@ class Student extends Model
         return $this->belongsTo(Grade::class);
     }
 
+    public function setClass()
+    {
+        return $this->hasMany(SetClass::class);
+    }
     // public function rataRata()
     // {
     //     $total = 0;
