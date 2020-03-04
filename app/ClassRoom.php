@@ -23,8 +23,14 @@ class ClassRoom extends Model
     {
         return $this->hasOne(Student::class);
     }
-    public function setClass()
+
+    public function classStudent()
     {
-        return $this->hasMany(SetClass::class);
+        return $this->hasMany(ClassStudent::class);
+    }
+
+    public function homeroomTeacher()
+    {
+        return $this->hasMany(HomeroomTeacher::class);
     }
 }

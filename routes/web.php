@@ -42,6 +42,11 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::delete('teachers/{teacher}', 'TeachersController@destroy');
     Route::get('teachers/{teacher}', 'TeachersController@show');
 
+    Route::get('/wali-kelas', 'HomeroomTeachersController@index');
+    Route::get('/wali-kelas/{semester_id}/create', 'HomeroomTeachersController@create');
+    Route::post('/wali-kelas', 'HomeroomTeachersController@store');
+    Route::delete('/wali-kelas/{homeroomTeacher}', 'HomeroomTeachersController@destroy');
+
     Route::get('/class-rooms', 'ClassRoomsController@index');
     Route::get('class-rooms/create', 'ClassRoomsController@create');
     Route::post('class-rooms', 'ClassRoomsController@store');

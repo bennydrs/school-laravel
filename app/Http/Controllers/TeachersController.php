@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\HomeroomTeacher;
 use App\Teacher;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;

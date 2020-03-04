@@ -1,13 +1,13 @@
 @extends('layouts/master')
 
-@section('title', 'Kelas Siswa')
-@section('header', 'Data Kelas Siswa')
+@section('title', 'Wali Kelas')
+@section('header', 'Data Wali Kelas')
 
 @section('content')
 
 <div class="row">
    <div class="col-lg">
-      <form action="/class-students" method="get">
+      <form action="/wali-kelas" method="get">
          <div class="row">
             {{-- <div class="col-auto">
                <div class="form-group">
@@ -39,48 +39,51 @@
 </div>
 </form>
 
+
 @if(isset($_GET['semester']))
-@if($classStudents->isNotEmpty())
+<a href="/wali-kelas/{{ $_GET['semester'] }}/create" class="btn btn-primary">Tambah</a>
+@if($homeroomTeachers->isNotEmpty())
 
 <div class="row">
-   @foreach ($classStudents as $s)
    <div class="col-md-6">
       <div class="card">
          <div class="card-header">
             <div class="card-title">
-               Data Jadwal Kelas {{ $s->classRoom->nama }}
+               Data Wali Kelas
             </div>
          </div>
 
          <div class="card-body">
 
-            <a href="/schedules/{{ $_GET['semester'] }}/create" class="btn btn-primary btn-sm mb-3">Tambah Jadwal</a>
-
-            <table class="table" id="datatable{{ $s->id}}">
+            <table class="table" id="datatable">
                <thead>
                   <tr>
                      <th>No</th>
                      <th>Nama</th>
+                     <th>Kelas</th>
                      <th>Aksi</th>
                   </tr>
                </thead>
                <tbody>
 
+                  @foreach ($homeroomTeachers as $ht)
                   <tr>
-                     @php
-                     $no = 1;
-                     @endphp
-                     <td>{{ $no++ }}</td>
-                     <td>{{ isset($s->student->nama) ?  ucfirst($s->student->nama)  : 'no first name!' }}</td>
+                     <td>{{ $loop->iteration }}</td>
+                     <td>{{ isset($ht->teacher->nama) ?  ucfirst($ht->teacher->nama)  : 'no name!' }}
+                     </td>
                      <td>
-                        <a href="/class-student/{{ $s->id }}/edit" class="btn btn-warning btn-sm">edit</a>
-                        <form action="/class-student/{{ $s->id }}" method="post" class="d-inline delete">
+                        {{ isset($ht->classRoom->nama) ?  ucfirst($ht->classRoom->nama)  : 'no name!' }}
+                     </td>
+                     <td>
+                        {{-- <a href="/wali-kelas/{{ $ht->id }}/edit" class="btn btn-warning btn-sm">edit</a> --}}
+                        <form action="/wali-kelas/{{ $ht->id }}" method="post" class="d-inline delete">
                            @csrf
                            @method('delete')
                            <button type="submit" class="btn btn-danger btn-sm">hapus</button>
                         </form>
                      </td>
                   </tr>
+                  @endforeach
 
                </tbody>
             </table>
@@ -88,18 +91,17 @@
       </div>
 
    </div>
-   @endforeach
 </div>
 
 @else
 <div class="alert alert-danger">
-   Data jadwal tidak ada
+   Data wali kelas tidak ada
 </div>
 @endif
 
 @else
 <div class="alert alert-info">
-   Untuk menampilkan jadwal pilih kelas dan semester
+   Untuk menampilkan wali kelas pilih kelas dan semester
 </div>
 @endif
 </div>

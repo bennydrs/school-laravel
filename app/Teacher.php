@@ -37,4 +37,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function homeroomTeacher()
+    {
+        return $this->hasMany(HomeroomTeacher::class);
+    }
 }

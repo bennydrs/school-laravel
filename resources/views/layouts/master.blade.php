@@ -177,10 +177,18 @@
                         <p>Guru</p>
                      </a>
                   </li>
+
                   <li class="nav-item">
                      <a href="/semesters" class="nav-link {{ Request::is('semesters*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>Semester</p>
+                     </a>
+                  </li>
+
+                  <li class="nav-item">
+                     <a href="/wali-kelas" class="nav-link {{ Request::is('wali-kelas*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>Wali Kelas</p>
                      </a>
                   </li>
 

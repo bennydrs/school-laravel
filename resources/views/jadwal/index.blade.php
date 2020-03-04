@@ -40,6 +40,8 @@
       </form>
 
       @if(isset($_GET['kelas']))
+      <a href="/schedules/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/create"
+         class="btn btn-primary btn-sm mb-3">Tambah Jadwal</a>
       @if($schedule->isNotEmpty())
 
       <div class="card">
@@ -53,8 +55,8 @@
 
          <div class="card-body">
 
-            <a href="/schedules/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/create"
-               class="btn btn-primary btn-sm mb-3">Tambah Jadwal</a>
+            <a href="/schedules/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/export"
+               class="btn btn-info btn-sm mb-3">Export PDF</a>
 
             <table class="table" id="datatable">
                <thead>

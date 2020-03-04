@@ -22,4 +22,9 @@ class Semester extends Model
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function homeroomTeacher()
+    {
+        return $this->hasMany(HomeroomTeacher::class);
+    }
 }
