@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SetClass extends Model
+class ClassStudent extends Model
 {
     public function classRoom()
     {

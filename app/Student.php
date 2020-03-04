@@ -35,7 +35,7 @@ class Student extends Model
 
     public function setClass()
     {
-        return $this->hasMany(SetClass::class);
+        return $this->hasMany(ClassStudent::class);
     }
     // public function rataRata()
     // {

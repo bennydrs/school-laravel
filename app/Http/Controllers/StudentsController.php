@@ -179,7 +179,7 @@ class StudentsController extends Controller
     {
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
-        $classStudents = \App\SetClass::where('semester_id', '=', $request->semester)->get();
+        $classStudents = \App\ClassStudent::where('semester_id', '=', $request->semester)->get();
         foreach ($classStudents as $c) {
             // dd(isset($s->student->nama) ?  ucfirst($s->student->nama);
         }
