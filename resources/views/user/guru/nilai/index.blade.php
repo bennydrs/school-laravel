@@ -45,7 +45,7 @@
       <div class="card">
          <div class="card-header">
             <div class="card-title">
-               Data Nilai Kelas {{$grades[0]->classLearn->classRoom->nama}}
+               Data Nilai Kelas {{ $classSelected->nama }}
                {{-- {{$grades[0]->classLearn->semester->tahun_ajaran .' | '. $grades[0]->classLearn->semester->semester   }}
                --}}
 
@@ -79,7 +79,7 @@
                   @foreach ($grades as $grade)
                   <tr>
                      <td>{{ $loop->iteration }}</td>
-                     <td>{{ $grade->student->nama }}</td>
+                     <td>{{ $grade->classStudent->student->nama }}</td>
                      <td>{{ $grade->classLearn->subject->nama }}</td>
                      <td>{{ $grade->nilai_tugas_1 }}</td>
                      <td>{{ $grade->nilai_tugas_2 }}</td>

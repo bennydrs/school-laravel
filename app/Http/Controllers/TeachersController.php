@@ -187,11 +187,14 @@ class TeachersController extends Controller
     public function indexGradeTeacher(Request $request)
     {
         // $classes = \App\ClassRoom::all();
+        // dd(auth()->user()->teacher->id);
         $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
         $semesters = \App\Semester::all();
+        $classSelected = \App\ClassRoom::find($request->kelas);
 
         $grades = \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
-        return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades'));
+        // dd($grades);
+        return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades', 'classSelected'));
     }
 
     public function createGradeTeacher($class_id, $semester_id, Request $request)
@@ -204,12 +207,14 @@ class TeachersController extends Controller
         $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
 
         if ($request->all()) {
-            $students = DB::table('students')->where('class_room_id', $class_id)
+            $students = DB::table('class_students')->where('class_room_id', $class_id)
+                ->join('students', 'students.id', '=', 'class_students.student_id')
+                ->select('students.nama', 'class_students.*')
                 ->whereNotExists(function ($query) use ($id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
                         ->whereRaw('grades.class_learn_id =' . $id)
-                        ->whereRaw('grades.student_id = students.id');
+                        ->whereRaw('grades.class_student_id = class_students.id');
                 })
                 ->get();
 
@@ -221,10 +226,10 @@ class TeachersController extends Controller
 
     public function storeGradeTeacher(Request $request)
     {
-        foreach ($request->student_id as $key => $value) {
+        foreach ($request->class_student_id as $key => $value) {
             // dd($value);
             \App\Grade::create([
-                'student_id' => $value,
+                'class_student_id' => $value,
                 'class_learn_id' => $request->class_learn_id,
                 'class_room_id' => $request->class_room_id[$key],
                 'semester_id' => $request->semester_id[$key],

@@ -54,17 +54,14 @@
                   <tbody>
                      @foreach ($students as $student)
                      <tr>
-                        <input type="hidden" class="form-control" name="class_room_id[]" value="{{$class->id}}">
-                        <input type="hidden" class="form-control" name="semester_id[]" value="{{$semester->id}}">
-                        <input type="hidden" class="form-control" name="student_id[]" value="{{$student->id}}">
-                        <input type="hidden" class="form-control" name="teacher_id[]"
-                           value="{{auth()->user()->teacher->id}}">
-                        <input type="hidden" class="form-control" name="class_learn_id" value="{{$_GET['subject']}}">
+                        <input type="hidden" name="class_room_id[]" value="{{$class->id}}">
+                        <input type="hidden" name="semester_id[]" value="{{$semester->id}}">
+                        <input type="hidden" name="class_student_id[]" value="{{$student->id}}">
+                        <input type="hidden" name="teacher_id[]" value="{{auth()->user()->teacher->id}}">
+                        <input type="hidden" name="class_learn_id" value="{{$_GET['subject']}}">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $student->nama }}</td>
-                        {{-- <td><input type="text" class="form-control" name="class_learn_id[]" value="{{$classLearn->id}}">
-                        --}}
-                        </td>
+
                         <td><input type="number" class="form-control" name="nilai_tugas_1[]"></td>
                         <td><input type="number" class="form-control" name="nilai_tugas_2[]"></td>
                         <td><input type="number" class="form-control" name="nilai_uts[]"></td>

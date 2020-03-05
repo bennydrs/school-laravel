@@ -53,12 +53,10 @@
                   </thead>
                   <tbody>
                      @foreach ($students as $s)
+                     @php
+                     $teacher= \App\Schedule::where('class_learn_id', '=', $_GET['subject'])->first();
+                     @endphp
                      <tr>
-                        @php
-                        $teacher= \App\Schedule::where('class_learn_id', '=', $_GET['subject'])->first();
-                        @endphp
-
-
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $s->nama }}</td>
                         <input type="hidden" class="form-control" name="class_room_id[]" value="{{$class->id}}">
