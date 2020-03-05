@@ -291,6 +291,13 @@
                      </a>
                   </li>
 
+                  <li class="nav-item">
+                     <a href="/teacher/grades" class="nav-link {{ Request::is('teacher/grades*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>Nilai</p>
+                     </a>
+                  </li>
+
                   @endif
 
                   <li class="nav-item">

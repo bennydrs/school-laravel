@@ -6,6 +6,7 @@ use App\HomeroomTeacher;
 use App\Teacher;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
+use Illuminate\Support\Facades\DB;
 
 class TeachersController extends Controller
 {
@@ -181,5 +182,59 @@ class TeachersController extends Controller
         $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->where('semester_id', '=', $request->semester)->get();
         // $teacher = Teacher::find(auth()->user()->teacher->id);
         return view('user.guru.jadwal', compact('schedules', 'semesters'));
+    }
+
+    public function gradeTeacher(Request $request)
+    {
+        // $classes = \App\ClassRoom::all();
+        $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $semesters = \App\Semester::all();
+
+        $grades =  \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades'));
+    }
+
+    public function createGradeTeacher($class_id, $semester_id, Request $request)
+    {
+        $id = $request->subject;
+
+        $semester = \App\Semester::find($semester_id);
+        $class = \App\ClassRoom::find($class_id);
+
+        $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+
+        if ($request->all()) {
+            $students = DB::table('students')->where('class_room_id', $class_id)
+                ->whereNotExists(function ($query) use ($id) {
+                    $query->select(DB::raw(1))
+                        ->from('grades')
+                        ->whereRaw('grades.class_learn_id =' . $id)
+                        ->whereRaw('grades.student_id = students.id');
+                })
+                ->get();
+
+            return view('user.guru.nilai.create', compact('class', 'schedule', 'semester', 'students'));
+        } else {
+            return view('user.guru.nilai.create', compact('class', 'schedule', 'semester'));
+        }
+    }
+
+    public function storeGradeTeacher(Request $request)
+    {
+        foreach ($request->student_id as $key => $value) {
+            // dd($value);
+            \App\Grade::create([
+                'student_id' => $value,
+                'class_learn_id' => $request->class_learn_id,
+                'class_room_id' => $request->class_room_id[$key],
+                'semester_id' => $request->semester_id[$key],
+                'teacher_id' => $request->teacher_id[$key],
+                'nilai_tugas_1' => $request->nilai_tugas_1[$key],
+                'nilai_tugas_2' => $request->nilai_tugas_2[$key],
+                'nilai_uts' => $request->nilai_uts[$key],
+                'nilai_uas' => $request->nilai_uas[$key],
+            ]);
+        }
+        return redirect('teacher/grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');
     }
 }

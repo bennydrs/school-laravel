@@ -34,6 +34,7 @@ class GradesController extends Controller
 
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
+
         // $students = \App\Student::where('class_room_id', $class_id)->get();
         // $students = \App\Student::where('students.class_room_id', $class_id)
         //     // ->join('grades', 'grades.student_id', '=', 'students.id')
@@ -45,6 +46,7 @@ class GradesController extends Controller
         //             ->whereRaw('grades.class_learn_id', '=', $id);
         //     })->get();
         $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
+        // $teacher = \App\Schedule::where('teacher_id', '=', $request->teacher_id)->first();
 
         if ($request->all()) {
             $students = DB::table('students')->where('class_room_id', $class_id)
@@ -85,6 +87,7 @@ class GradesController extends Controller
                 'class_learn_id' => $request->class_learn_id,
                 'class_room_id' => $request->class_room_id[$key],
                 'semester_id' => $request->semester_id[$key],
+                'teacher_id' => $request->teacher_id[$key],
                 'nilai_tugas_1' => $request->nilai_tugas_1[$key],
                 'nilai_tugas_2' => $request->nilai_tugas_2[$key],
                 'nilai_uts' => $request->nilai_uts[$key],

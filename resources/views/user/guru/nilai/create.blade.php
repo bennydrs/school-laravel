@@ -12,7 +12,7 @@
             <h3 class="card-title">Input Data Nilai {{ $class->nama }}</h3>
          </div>
 
-         <form action="/grades/{{$class->id}}/{{$semester->id}}/create" method="get" class="ml-3 mt-3">
+         <form action="/teacher/grades/{{$class->id}}/{{$semester->id}}/create" method="get" class="ml-3 mt-3">
             <div class="row">
                <div class="col-md-3">
                   <div class="input-group mb-3">
@@ -36,7 +36,7 @@
 
          @if(isset($_GET['subject']))
 
-         <form method="post" action="/grades" role="form">
+         <form method="post" action="/teacher/grades" role="form">
             @csrf
             <div class="card-body">
 
@@ -54,18 +54,13 @@
                   <tbody>
                      @foreach ($students as $student)
                      <tr>
-                        {{-- @php
-                        $teacher= \App\Schedule::where('class_learn_id', '=', $_GET['subject'])->first();
-                        @endphp
-                        {{ $teacher->teacher_id  }} --}}
-
-                        <td>{{ $loop->iteration }}</td>
                         <input type="hidden" class="form-control" name="class_room_id[]" value="{{$class->id}}">
                         <input type="hidden" class="form-control" name="semester_id[]" value="{{$semester->id}}">
                         <input type="hidden" class="form-control" name="student_id[]" value="{{$student->id}}">
-                        <input type="text" class="form-control" name="teacher_id[]" value="{{$cl->teacher_id}}">
-
+                        <input type="hidden" class="form-control" name="teacher_id[]"
+                           value="{{auth()->user()->teacher->id}}">
                         <input type="hidden" class="form-control" name="class_learn_id" value="{{$_GET['subject']}}">
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $student->nama }}</td>
                         {{-- <td><input type="text" class="form-control" name="class_learn_id[]" value="{{$classLearn->id}}">
                         --}}
@@ -81,11 +76,14 @@
 
             </div>
             <!-- /.card-body -->
+            @if ($students->isNotEmpty())
 
             <div class="card-footer">
                <button type="submit" class="btn btn-primary">Tambah Data</button>
-               <a href="/grades?kelas={{$class->id}}&semester={{$semester->id}}" class="btn btn-warning">Batal</a>
+               <a href="/teacher/grades?kelas={{$class->id}}&semester={{$semester->id}}"
+                  class="btn btn-warning">Batal</a>
             </div>
+            @endif
          </form>
          @endif
       </div>
