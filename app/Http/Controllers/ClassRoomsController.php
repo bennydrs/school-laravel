@@ -43,11 +43,9 @@ class ClassRoomsController extends Controller
         $request->validate(
             [
                 'nama' => 'required|unique:class_rooms',
-                'teacher_id' => 'required',
             ],
             [
                 'required' => ':attribute wajib diisi',
-                'min' => ':attribute minimal :min karakter',
                 'unique' => ':attribute kelas sudah tersedia',
             ]
         );
@@ -109,9 +107,6 @@ class ClassRoomsController extends Controller
         $classRooms = ClassRoom::select('class_rooms.*');
         return \DataTables::eloquent($classRooms)
             ->addIndexColumn()
-            ->addColumn('wali', function ($c) {
-                return $c->teacher->nama;
-            })
             ->addColumn('aksi', function ($c) {
                 return '<a href="/class-rooms/' . $c->id . '/edit" class="btn btn-warning btn-sm">edit</a> 
                 <form action="/class-rooms/' . $c->id . '" method="post" class="d-inline delete">   

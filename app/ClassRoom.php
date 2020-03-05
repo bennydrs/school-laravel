@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ClassRoom extends Model
 {
-    protected $fillable = ['kode_kelas', 'nama', 'teacher_id'];
+    protected $fillable = ['kode_kelas', 'nama'];
 
     public function teacher()
     {

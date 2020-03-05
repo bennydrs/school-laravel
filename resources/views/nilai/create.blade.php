@@ -52,24 +52,22 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach ($students as $student)
+                     @foreach ($students as $s)
                      <tr>
-                        {{-- @php
+                        @php
                         $teacher= \App\Schedule::where('class_learn_id', '=', $_GET['subject'])->first();
                         @endphp
-                        {{ $teacher->teacher_id  }} --}}
+
 
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $s->nama }}</td>
                         <input type="hidden" class="form-control" name="class_room_id[]" value="{{$class->id}}">
                         <input type="hidden" class="form-control" name="semester_id[]" value="{{$semester->id}}">
-                        <input type="hidden" class="form-control" name="student_id[]" value="{{$student->id}}">
-                        <input type="text" class="form-control" name="teacher_id[]" value="{{$cl->teacher_id}}">
+                        <input type="hidden" class="form-control" name="class_student_id[]" value="{{$s->id}}">
+                        <input type="hidden" class="form-control" name="teacher_id[]"
+                           value="{{ $teacher->teacher_id  }}">
 
                         <input type="hidden" class="form-control" name="class_learn_id" value="{{$_GET['subject']}}">
-                        <td>{{ $student->nama }}</td>
-                        {{-- <td><input type="text" class="form-control" name="class_learn_id[]" value="{{$classLearn->id}}">
-                        --}}
-                        </td>
                         <td><input type="number" class="form-control" name="nilai_tugas_1[]"></td>
                         <td><input type="number" class="form-control" name="nilai_tugas_2[]"></td>
                         <td><input type="number" class="form-control" name="nilai_uts[]"></td>

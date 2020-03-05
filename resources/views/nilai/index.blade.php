@@ -77,7 +77,7 @@
                   @foreach ($grades as $grade)
                   <tr>
                      <td>{{ $loop->iteration }}</td>
-                     <td>{{ $grade->student->nama }}</td>
+                     <td>{{ $grade->classStudent->student->nama }}</td>
                      <td>{{ $grade->classLearn->subject->nama }}</td>
                      <td>{{ $grade->nilai_tugas_1 }}</td>
                      <td>{{ $grade->nilai_tugas_2 }}</td>

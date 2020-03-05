@@ -297,6 +297,13 @@
                         <p>Nilai</p>
                      </a>
                   </li>
+                  <li class="nav-item">
+                     <a href="/teacher/homeroom-teacher"
+                        class="nav-link {{ Request::is('teacher/homeroom-teacher*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>Wali Kelas</p>
+                     </a>
+                  </li>
 
                   @endif
 

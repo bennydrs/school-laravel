@@ -49,14 +49,17 @@ class GradesController extends Controller
         // $teacher = \App\Schedule::where('teacher_id', '=', $request->teacher_id)->first();
 
         if ($request->all()) {
-            $students = DB::table('students')->where('class_room_id', $class_id)
+            $students = DB::table('class_students')->where('class_room_id', $class_id)
+                ->join('students', 'students.id', '=', 'class_students.student_id')
+                ->select('students.nama', 'class_students.*')
                 ->whereNotExists(function ($query) use ($id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
                         ->whereRaw('grades.class_learn_id =' . $id)
-                        ->whereRaw('grades.student_id = students.id');
+                        ->whereRaw('grades.class_student_id = class_students.id');
                 })
                 ->get();
+            // dd($students);
 
             return view('nilai.create', compact('class', 'schedule', 'semester', 'students'));
         } else {
@@ -80,10 +83,10 @@ class GradesController extends Controller
         // echo "Colour: " . $result_explode[1] . "<br />";
         // dd($result_explode[0]);
 
-        foreach ($request->student_id as $key => $value) {
+        foreach ($request->class_student_id as $key => $value) {
             // dd($value);
             Grade::create([
-                'student_id' => $value,
+                'class_student_id' => $value,
                 'class_learn_id' => $request->class_learn_id,
                 'class_room_id' => $request->class_room_id[$key],
                 'semester_id' => $request->semester_id[$key],

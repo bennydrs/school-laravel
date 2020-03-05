@@ -115,9 +115,10 @@ Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher']
     Route::get('/profile', 'TeachersController@profileTeacher');
     Route::get('/edit-profile', 'TeachersController@editProfileTeacher');
     Route::get('/schedules', 'TeachersController@schedulesTeacher');
-    Route::get('/grades', 'TeachersController@gradeTeacher');
+    Route::get('/grades', 'TeachersController@indexGradeTeacher');
     Route::get('/grades/{class_id}/{semester_id}/create', 'TeachersController@createGradeTeacher');
     Route::post('/grades', 'TeachersController@storeGradeTeacher');
+    Route::get('/homeroom-teacher', 'TeachersController@IndexHomeroomTeacher');
 });
 
 //ajax

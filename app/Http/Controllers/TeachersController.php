@@ -184,13 +184,13 @@ class TeachersController extends Controller
         return view('user.guru.jadwal', compact('schedules', 'semesters'));
     }
 
-    public function gradeTeacher(Request $request)
+    public function indexGradeTeacher(Request $request)
     {
         // $classes = \App\ClassRoom::all();
         $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
         $semesters = \App\Semester::all();
 
-        $grades =  \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $grades = \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
         return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades'));
     }
 
@@ -236,5 +236,14 @@ class TeachersController extends Controller
             ]);
         }
         return redirect('teacher/grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');
+    }
+
+    public function indexHomeroomTeacher(Request $request)
+    {
+        $semesters = \App\Semester::all();
+        $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->first();
+        // dd($homeroomTeachers);
+        $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', $homeroomTeachers->class_room_id)->get();
+        return view('user.guru.wali_kelas.index', compact('semesters', 'students'));
     }
 }

@@ -33,7 +33,12 @@ class Student extends Model
         return $this->belongsTo(Grade::class);
     }
 
-    public function setClass()
+    // public function setClass()
+    // {
+    //     return $this->hasMany(ClassStudent::class);
+    // }
+
+    public function classStudent()
     {
         return $this->hasMany(ClassStudent::class);
     }

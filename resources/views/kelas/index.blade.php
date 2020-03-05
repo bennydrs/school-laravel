@@ -4,56 +4,55 @@
 @section('header', 'Data Kelas')
 
 @section('content')
-    
-    <div class="row">
-        <div class="col-lg-8">
-            <a href="class-rooms/create" class="btn btn-primary mb-3 coba">Tambah Kelas</a>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        Data Kelas
-                    </div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <a href="class-rooms/create" class="btn btn-primary mb-3 coba">Tambah Kelas</a>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Data Kelas
                 </div>
-                <div class="card-body">
-                    <table class="table" id="datatable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Kelas</th>
-                                <th>Nama</th>
-                                <th>Wali Kelas</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($students as $student)
+            </div>
+            <div class="card-body">
+                <table class="table" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Kelas</th>
+                            <th>Nama</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- @foreach ($students as $student)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $student->nis }}</td>
-                                <td>{{ $student->nama }}</td>
-                                <td>{{ $student->jenis_kelamin }}</td>
-                                <td>
-                                    <a href="/students/{{ $student->id }}" class="btn btn-info btn-sm">detail</a>
-                                    <a href="/students/{{ $student->id }}/edit" class="btn btn-warning btn-sm">edit</a>
-                                    <form action="/students/{{$student->id}}" method="post" class="d-inline delete">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm">hapus</button>
-                                    </form>
-                                </td>
-                            </tr>   
-                            @endforeach --}}
-                        </tbody>
-                    </table>
-                </div>
+                        <td>{{ $student->nis }}</td>
+                        <td>{{ $student->nama }}</td>
+                        <td>{{ $student->jenis_kelamin }}</td>
+                        <td>
+                            <a href="/students/{{ $student->id }}" class="btn btn-info btn-sm">detail</a>
+                            <a href="/students/{{ $student->id }}/edit" class="btn btn-warning btn-sm">edit</a>
+                            <form action="/students/{{$student->id}}" method="post" class="d-inline delete">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger btn-sm">hapus</button>
+                            </form>
+                        </td>
+                        </tr>
+                        @endforeach --}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function(){
+<script>
+    $(document).ready(function(){
             $('#datatable').DataTable({
                 processing: true,
                 serverside: true,
@@ -62,7 +61,6 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     {data: 'kode_kelas', name: 'kode_kelas'},
                     {data: 'nama', name: 'nama'},
-                    {data: 'wali', name: 'wali'},
                     {data: 'aksi', name: 'aksi'},
                 ]
             });
@@ -87,5 +85,5 @@
                 })
             });
         });
-    </script>
+</script>
 @endsection
