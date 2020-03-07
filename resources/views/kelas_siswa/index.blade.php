@@ -43,7 +43,12 @@
 @if($classStudents->isNotEmpty())
 
 <div class="row">
-   @foreach ($classStudents as $s)
+
+   @foreach ($classStudents->unique('class_room_id') as $s)
+   @php
+   $students = \App\ClassStudent::where('class_room_id', $s->class_room_id)->get();
+   @endphp
+
    <div class="col-md-6">
       <div class="card">
          <div class="card-header">
@@ -65,16 +70,17 @@
                   </tr>
                </thead>
                <tbody>
+                  @foreach ($students as $item)
 
                   <tr>
                      @php
                      $no = 1;
                      @endphp
                      <td>{{ $no++ }}</td>
-                     <td>{{ isset($s->student->nama) ?  ucfirst($s->student->nama)  : 'no first name!' }}</td>
+                     <td>{{ isset($item->student->nama) ?  ucfirst($item->student->nama)  : 'no first name!' }}</td>
                      <td>
-                        <a href="/class-student/{{ $s->id }}/edit" class="btn btn-warning btn-sm">edit</a>
-                        <form action="/class-student/{{ $s->id }}" method="post" class="d-inline delete">
+                        <a href="/class-student/{{ $item->id }}/edit" class="btn btn-warning btn-sm">edit</a>
+                        <form action="/class-student/{{ $item->id }}" method="post" class="d-inline delete">
                            @csrf
                            @method('delete')
                            <button type="submit" class="btn btn-danger btn-sm">hapus</button>
@@ -82,6 +88,7 @@
                      </td>
                   </tr>
 
+                  @endforeach
                </tbody>
             </table>
          </div>
