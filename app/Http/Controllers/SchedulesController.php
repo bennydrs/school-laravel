@@ -11,19 +11,21 @@ class SchedulesController extends Controller
 
     public function index(Request $request)
     {
-        $classes = \App\ClassRoom::all();
+        // dd($request->all());
+        $classStudents = \App\ClassStudent::all();
         $semesters = \App\Semester::all();
 
-        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
-        return view('jadwal.index', compact('classes', 'semesters', 'schedule'));
+        $schedule = Schedule::where('class_student_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
+        return view('jadwal.index', compact('classStudents', 'semesters', 'schedule'));
     }
 
-    public function create($class_id, $semester_id)
+    public function create($class_room_id, $semester_id)
     {
         $semester = \App\Semester::find($semester_id);
-        $class = \App\ClassRoom::find($class_id);
-        $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_id)->get();
-        return view('jadwal.create', compact('class', 'classLearns', 'semester'));
+        // $class = \App\ClassRoom::find($class_room_id);
+        $classStudent = \App\ClassStudent::where('class_room_id', $class_room_id)->first();
+        $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_room_id)->get();
+        return view('jadwal.create', compact('classStudent', 'classLearns', 'semester'));
     }
 
     // public function getSemester($semester_id = 0, $class_id) //untuk create
@@ -53,14 +55,14 @@ class SchedulesController extends Controller
         $teacher = Schedule::where('hari', $request->hari)->where('jam_mulai', $request->jam_mulai)->where('teacher_id', $request->teacher_id)->first();
 
         if ($schedule != null) {
-            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Data jadwal sudah ada!')->withInput();
+            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Data jadwal sudah ada!')->withInput();
         } else if ($teacher != null) {
-            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Jadwal guru bentrok!')->withInput();
+            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Jadwal guru bentrok!')->withInput();
         } else if ($request->jam_mulai == $request->jam_selesai) {
-            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Jam mulai & jam selesai tidak boleh sama!')->withInput();
+            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Jam mulai & jam selesai tidak boleh sama!')->withInput();
         } else {
             Schedule::create($request->all());
-            return redirect('schedules?kelas=' . $request->class_room_id . '&semester=' . $request->semester_id . '')->with('status', 'Data jadwal berhasil ditambah!');
+            return redirect('schedules?kelas=' . $request->class_student_id . '&semester=' . $request->semester_id . '')->with('status', 'Data jadwal berhasil ditambah!');
         }
     }
 
@@ -72,9 +74,9 @@ class SchedulesController extends Controller
     public function edit(Schedule $schedule)
     {
         $semester = \App\Semester::find($schedule->semester_id);
-        $class = \App\ClassRoom::find($schedule->class_room_id);
-        $classLearns = \App\ClassLearn::where('class_room_id', '=', $schedule->class_room_id)->where('semester_id', '=', $schedule->semester_id)->get();
-        return view('jadwal.edit', compact('schedule', 'classLearns', 'semester', 'class'));
+        $classStudent = \App\ClassStudent::find($schedule->class_student_id);
+        $classLearns = \App\ClassLearn::where('class_room_id', '=', $classStudent->class_room_id)->get();
+        return view('jadwal.edit', compact('schedule', 'classLearns', 'semester', 'classStudent'));
     }
 
     public function update(Request $request, Schedule $schedule)
@@ -105,7 +107,7 @@ class SchedulesController extends Controller
             $schedule = Schedule::find($schedule->id);
             $schedule->update($request->all());
             $schedule->save();
-            return redirect('schedules?kelas=' . $schedule->class_room_id . '&semester=' . $schedule->semester_id . '')->with('status', 'Data jadwal berhasil diubah!');
+            return redirect('schedules?kelas=' . $schedule->class_student_id . '&semester=' . $schedule->semester_id . '')->with('status', 'Data jadwal berhasil diubah!');
         }
     }
 
@@ -118,7 +120,7 @@ class SchedulesController extends Controller
     public function destroy(Schedule $schedule)
     {
         Schedule::destroy($schedule->id);
-        return redirect('schedules?kelas=' . $schedule->class_room_id . '&semester=' . $schedule->semester_id . '')->with('status', 'Data jadwal berhasil dihapus');
+        return redirect('schedules?kelas=' . $schedule->class_student_id . '&semester=' . $schedule->semester_id . '')->with('status', 'Data jadwal berhasil dihapus');
     }
 
     // public function scheduleClass($id)

@@ -186,14 +186,12 @@ class TeachersController extends Controller
 
     public function indexGradeTeacher(Request $request)
     {
-        // $classes = \App\ClassRoom::all();
-        // dd(auth()->user()->teacher->id);
         $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
         $semesters = \App\Semester::all();
         $classSelected = \App\ClassRoom::find($request->kelas);
 
         $grades = \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
-        // dd($grades);
+
         return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades', 'classSelected'));
     }
 
@@ -246,9 +244,34 @@ class TeachersController extends Controller
     public function indexHomeroomTeacher(Request $request)
     {
         $semesters = \App\Semester::all();
-        $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->first();
-        // dd($homeroomTeachers);
-        $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', $homeroomTeachers->class_room_id)->get();
-        return view('user.guru.wali_kelas.index', compact('semesters', 'students'));
+        $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
+        // $classStudentId = \App\ClassStudent::where('class_room_id', '=', $homeroomTeachers->class_room_id)->get();
+        // dd($classStudentId);
+        // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
+        return view('user.guru.wali_kelas.index', compact('semesters', 'homeroomTeachers'));
+    }
+
+    public function showStudentHomeroomTeacher($class_id)
+    {
+        // $semesters = \App\Semester::all();
+        // $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
+        // dd($request->all());
+        // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
+        $classStudents = \App\ClassStudent::where('class_room_id', $class_id)->get();
+        // dd($classes);
+        // $grades = \App\Grade::where('class_room_id', $class_id)->get();
+        return view('user.guru.wali_kelas.show_student', compact('classStudents'));
+    }
+
+    public function showGradeHomeroomTeacher($class_student_id)
+    {
+        // $semesters = \App\Semester::all();
+        // $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
+        // dd($request->all());
+        // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
+        // $classes = \App\ClassStudent::where('class_room_id', $class_id)->get();
+        // $schedules = \App\Schedule::where('class_student_id', $class_student_id)->get();
+        $grades = \App\Grade::where('class_student_id', $class_student_id)->get();
+        return view('user.guru.wali_kelas.show_grade', compact('grades'));
     }
 }

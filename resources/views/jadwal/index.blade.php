@@ -13,9 +13,10 @@
                <div class="form-group">
                   <select name="kelas" id="kelas" class="form-control" required>
                      <option value="">Pilih kelas</option>
-                     @foreach ($classes as $class)
-                     <option value="{{$class->id}}" {{ ($_GET) ? $_GET['kelas'] == $class->id ? 'selected' : '' : '' }}>
-                        {{ $class->nama }}</option>
+                     @foreach ($classStudents->unique('class_room_id') as $classStudent)
+                     <option value="{{$classStudent->id}}"
+                        {{ ($_GET) ? $_GET['kelas'] == $classStudent->id ? 'selected' : '' : '' }}>
+                        {{ $classStudent->classRoom->nama }}</option>
                      @endforeach
                   </select>
                </div>
@@ -40,7 +41,7 @@
       </form>
 
       @if(isset($_GET['kelas']))
-      <a href="/schedules/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/create"
+      <a href="/schedules/{{ $classStudent->class_room_id }}/{{ $_GET['semester'] }}/create"
          class="btn btn-primary btn-sm mb-3">Tambah Jadwal</a>
       @if($schedule->isNotEmpty())
 

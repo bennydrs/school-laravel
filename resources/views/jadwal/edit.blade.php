@@ -9,7 +9,7 @@
    <div class="col-md-6">
       <div class="card card-success">
          <div class="card-header">
-            <h3 class="card-title">Ubah Data Jadwal Kelas {{ $class->nama }}</h3>
+            <h3 class="card-title">Ubah Data Jadwal Kelas {{ $classStudent->classRoom->nama }}</h3>
          </div>
 
          <form method="post" action="/schedules/{{$schedule->id}}" role="form">
@@ -19,11 +19,13 @@
                <div class="form-row">
                   <div class="form-group col-md-6">
                      <label for="kode_kelas">Kode Kelas</label>
-                     <input type="text" class="form-control" id="kode_kelas" value="{{ $class->kode_kelas }}" readonly>
+                     <input type="text" class="form-control" id="kode_kelas"
+                        value="{{ $classStudent->classRoom->kode_kelas }}" readonly>
                   </div>
                   <div class="form-group col-md-6">
                      <label for="nama_kelas">Nama Kelas</label>
-                     <input type="text" class="form-control" id="nama_kelas" value="{{ $class->nama }}" readonly>
+                     <input type="text" class="form-control" id="nama_kelas"
+                        value="{{ $classStudent->classRoom->nama }}" readonly>
                   </div>
                </div>
 
@@ -103,7 +105,8 @@
 
             <div class="card-footer">
                <button type="submit" class="btn btn-success">Ubah Data</button>
-               <a href="/schedules?kelas={{$class->id}}&semester={{$semester->id}}" class="btn btn-warning">Batal</a>
+               <a href="/schedules?kelas={{$classStudent->id}}&semester={{$semester->id}}"
+                  class="btn btn-warning">Batal</a>
             </div>
          </form>
       </div>
