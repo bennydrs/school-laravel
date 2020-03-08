@@ -56,7 +56,7 @@
                               {{ isset($classStudent->student->alamat) ?  ucfirst($classStudent->student->alamat)  : 'no address!' }}
                            </td>
                            <td>
-                              <a href="/teacher/homeroom-teacher/grades/{{ $classStudent->id }}"
+                              <a href="/teacher/homeroom-teacher/grades/class-student/{{ $classStudent->id }}/semester/{{ $classStudent->semester_id }}"
                                  class="btn btn-info btn-sm">Nilai</a>
                            </td>
                         </tr>

@@ -119,8 +119,8 @@ Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher']
     Route::get('/grades/{class_id}/{semester_id}/create', 'TeachersController@createGradeTeacher');
     Route::post('/grades', 'TeachersController@storeGradeTeacher');
     Route::get('/homeroom-teacher', 'TeachersController@indexHomeroomTeacher');
-    Route::get('/homeroom-teacher/class/{class_id}', 'TeachersController@showStudentHomeroomTeacher');
-    Route::get('/homeroom-teacher/grades/{student_id}', 'TeachersController@showGradeHomeroomTeacher');
+    Route::get('/homeroom-teacher/class/{class_id}/semester/{semester_id}', 'TeachersController@showStudentHomeroomTeacher');
+    Route::get('/homeroom-teacher/grades/class-student/{class_student_id}/semester/{semester_id}', 'TeachersController@showGradeHomeroomTeacher');
 });
 
 //ajax

@@ -5,9 +5,23 @@
 
 @section('content')
 
-<div class="row mb-3">
-   <div class="col-md-4">
-      Nama :
+<a href="/teacher/homeroom-teacher/class/{{ $student->class_room_id }}/semester/{{ $student->semester_id }}"
+   class="btn btn-danger btn-sm mb-3">Kembali</a>
+
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-body">
+            <div class="row">
+               <div class="col-md-6">
+                  Nama : {{$student->student->nama}}
+               </div>
+               <div class="col-md-6">
+                  Kelas : {{$student->classRoom->nama}}
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </div>
 
@@ -28,43 +42,74 @@
 
                <div class="card-body">
 
-                  <table class="table">
+                  <table class="table table-bordered table-sm">
                      <thead>
                         <tr>
                            <th>No</th>
                            <th>Mata Pelajaran</th>
+                           <th>Nilai Tugas 1</th>
+                           <th>Nilai Tugas 2</th>
+                           <th>Nilai UTS</th>
+                           <th>Nilai UAS</th>
                            <th>Rata-rata</th>
                            <th>Aksi</th>
                         </tr>
                      </thead>
                      <tbody>
-
-                        @foreach ($grades as $grade)
                         @php
-                        $schedule = \App\Schedule::where('class_room_id', 1)->get();
-                        dd($schedule->unique('class_learn_id'))
+                        $sum = 0;
+                        @endphp
+                        @foreach ($nilai->unique('subject_id') as $grade)
+                        @php
+                        $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_1;
+                        $rata2tugas = $jmltugas / 2;
+
+                        $tugas = $rata2tugas * 25/100;
+                        $uts = $grade->nilai_uts * 35/100;
+                        $uas = $grade->nilai_uas * 40/100;
+                        $rata2 = $tugas + $uts + $uas;
+
+                        $sum += $rata2
                         @endphp
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>
-                              {{ isset($classLearn->subject->nama) ?  ucfirst($classLearn->subject->nama)  : 'no ada!' }}
+                              {{ isset($grade->nama) ? ucfirst($grade->nama) :
+                              'no name!' }}
                            </td>
                            <td>
-                              {{ isset($grade->student->nama) ?  ucfirst($grade->student->nama)  : 'no name!' }}
+                              {{ isset( $grade->nilai_tugas_1) ?  ucfirst($grade->nilai_tugas_1)  : '-' }}
                            </td>
                            <td>
-                              {{ isset($grade->student->jenis_kelamin) ?  ucfirst($grade->student->jenis_kelamin)  : 'no gender!' }}
+                              {{ isset($grade->nilai_tugas_2) ?  ucfirst($grade->nilai_tugas_2)  : '-' }}
                            </td>
                            <td>
-                              {{ isset($grade->student->alamat) ?  ucfirst($grade->student->alamat)  : 'no address!' }}
+                              {{ isset($grade->nilai_uts) ?  ucfirst($grade->nilai_uts)  : '-' }}
                            </td>
                            <td>
-                              <a href="/teacher/homeroom-teacher/grades/{{ $grade->id }}"
-                                 class="btn btn-info btn-sm">Nilai</a>
+                              {{ isset($grade->nilai_uas) ?  ucfirst($grade->nilai_uas)  : '-' }}
+                           </td>
+                           <td>
+                              {{ ($rata2) ? ($rata2)  : '-' }}
+                           </td>
+                           <td>
+
+                              {{-- <a href="/teacher/homeroom-teacher/grades/{{ $grade->id }}"
+                              class="btn btn-info btn-sm">Nilai</a> --}}
                            </td>
                         </tr>
                         @endforeach
 
+                        @php
+                        $jumlahData = count($nilai->unique('subject_id'))
+                        @endphp
+
+                        <tr>
+                           <td colspan="6" class="text-center text-bold">Rata-rata</td>
+                           <td>
+                              {{ $sum / $jumlahData }}
+                           </td>
+                        </tr>
                      </tbody>
                   </table>
                </div>

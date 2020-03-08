@@ -96,7 +96,7 @@
                         {{ isset($ht->semester->tahun_ajaran) ?  ucfirst($ht->semester->tahun_ajaran)  : 'no name!' }}
                      </td>
                      <td>
-                        <a href="/teacher/homeroom-teacher/class/{{ $ht->class_room_id }}"
+                        <a href="/teacher/homeroom-teacher/class/{{ $ht->class_room_id }}/semester/{{ $_GET['semester'] }}"
                            class="btn btn-warning btn-sm">Lihat</a>
 
                      </td>

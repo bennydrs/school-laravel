@@ -251,27 +251,41 @@ class TeachersController extends Controller
         return view('user.guru.wali_kelas.index', compact('semesters', 'homeroomTeachers'));
     }
 
-    public function showStudentHomeroomTeacher($class_id)
+    public function showStudentHomeroomTeacher($class_id, $semester_id)
     {
         // $semesters = \App\Semester::all();
         // $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
         // dd($request->all());
         // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
-        $classStudents = \App\ClassStudent::where('class_room_id', $class_id)->get();
+        $classStudents = \App\ClassStudent::where('class_room_id', $class_id)->where('semester_id', $semester_id)->get();
         // dd($classes);
         // $grades = \App\Grade::where('class_room_id', $class_id)->get();
         return view('user.guru.wali_kelas.show_student', compact('classStudents'));
     }
 
-    public function showGradeHomeroomTeacher($class_student_id)
+    public function showGradeHomeroomTeacher($class_student_id, $semester_id)
     {
-        // $semesters = \App\Semester::all();
-        // $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
-        // dd($request->all());
-        // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
-        // $classes = \App\ClassStudent::where('class_room_id', $class_id)->get();
-        // $schedules = \App\Schedule::where('class_student_id', $class_student_id)->get();
-        $grades = \App\Grade::where('class_student_id', $class_student_id)->get();
-        return view('user.guru.wali_kelas.show_grade', compact('grades'));
+        $student = \App\ClassStudent::find($class_student_id);
+        $class_room_id = $student->class_room_id;
+
+        // $nilai = DB::table('class_learns')
+        //     ->leftJoin('grades', 'class_learns.id', '=', 'grades.class_learn_id')
+        //     ->leftJoin('subjects', 'class_learns.subject_id', '=', 'subjects.id')
+        //     ->select('subjects.*', 'grades.*')
+        //     ->where('class_learns.class_room_id', $grades->classStudent->class_room_id)
+        //     ->get();
+
+        $nilai = DB::table('class_learns')
+            ->leftJoin('subjects', 'subjects.id', '=', 'class_learns.subject_id')
+            ->select('class_learns.*', 'grades.*', 'subjects.nama')
+            ->leftJoin('grades', function ($leftJoin) use ($class_student_id, $semester_id, $class_room_id) {
+                $leftJoin->on('grades.class_learn_id', '=', 'class_learns.id');
+                $leftJoin->where('grades.class_room_id', '=', $class_room_id);
+                $leftJoin->where('grades.semester_id', '=', $semester_id);
+                $leftJoin->where('grades.class_student_id', '=', $class_student_id);
+                // $leftJoin->on(DB::raw('grades.class_student_id'), DB::raw('='), DB::raw("'" . $class_student_id . "'"));
+            })->get();
+
+        return view('user.guru.wali_kelas.show_grade', compact('student', 'nilai', 'class_room_id', 'semester_id'));
     }
 }
