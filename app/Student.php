@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $dates = ['tanggal_lahir'];
-    protected $fillable = ['nis', 'nama', 'user_id', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'agama', 'alamat', 'foto', 'class_room_id'];
+    protected $fillable = ['nis', 'nama', 'user_id', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'agama', 'alamat', 'foto'];
 
     public function getFoto()
     {

@@ -7,7 +7,7 @@
 
 <div class="row">
    <div class="col-md-12">
-      <a href="students/create" class="btn btn-primary mb-3 coba">Tambah Siswa</a>
+      <a href="students/create" class="btn btn-primary mb-3 coba load">Tambah Siswa</a>
       <div class="card">
          <div class="card-header">
             <div class="card-title">
@@ -23,7 +23,7 @@
                      <th>Nama</th>
                      <th>Jenis Kelamin</th>
                      <th>Alamat</th>
-                     <th>Kelas</th>
+                     {{-- <th>Kelas</th> --}}
                      <th>Aksi</th>
                   </tr>
                </thead>
@@ -66,7 +66,7 @@
             {data: 'nama', name: 'nama'},
             {data: 'jenis_kelamin', name: 'jenis_kelamin'},
             {data: 'alamat', name: 'alamat'},
-            {data: 'kelas', name: 'kelas'},
+            // {data: 'kelas', name: 'kelas'},
             {data: 'aksi', name: 'aksi'},
          ]
       });

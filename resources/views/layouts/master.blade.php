@@ -455,7 +455,7 @@
    <script>
       $(document).ready(function() {
         
-        $('.btn').on('click', function() {
+        $('.load').on('click', function() {
           var $this = $(this);
           var loadingText = '<span class="spinner-border spinner-border-sm"></span> Loading..';
           if ($(this).html() !== loadingText) {

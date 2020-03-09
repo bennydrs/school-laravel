@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Student;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
+use Illuminate\Support\Facades\DB;
 
 class StudentsController extends Controller
 {
@@ -159,9 +160,9 @@ class StudentsController extends Controller
 
         return \DataTables::eloquent($students)
             ->addIndexColumn()
-            ->addColumn('kelas', function ($s) {
-                return $s->classRoom->nama;
-            })
+            // ->addColumn('kelas', function ($s) {
+            //     return $s->classRoom->nama;
+            // })
             ->addColumn('aksi', function ($s) {
                 return '<a href="/students/' . $s->id . '" class="btn btn-info btn-sm">detail</a>
                 <a href="/students/' . $s->id . '/edit" class="btn btn-warning btn-sm">edit</a> 
@@ -177,12 +178,45 @@ class StudentsController extends Controller
 
     public function classStudent(Request $request)
     {
+        $semester_id = $request->semester;
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
-        $classStudents = \App\ClassStudent::where('semester_id', '=', $request->semester)->get();
+        $classStudents = \App\ClassStudent::where('semester_id', '=', $semester_id)->get();
 
-        return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters'));
+        $studentNotExists = DB::table('students')
+            ->select('students.id', 'students.nama')
+            ->whereNotExists(function ($query) use ($semester_id) {
+                $query->select(DB::raw(1))
+                    ->from('class_students')
+                    ->whereRaw('class_students.semester_id =' . $semester_id)
+                    ->whereRaw('class_students.student_id = students.id');
+            })
+            ->get();
+        // dd($studentNotExists);
+
+        return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters', 'studentNotExists'));
     }
+
+    public function storeClassStudentByStudent(Request $request)
+    {
+        dd($request->all());
+    }
+
+    // public function createClassStudentByStudent($semester_id, $class_id)
+    // {
+    //     $students = DB::table('students')
+    //         // ->join('students', 'students.id', '=', 'class_students.student_id')
+    //         ->select('students.nama')
+    //         ->whereNotExists(function ($query) use ($class_id) {
+    //             $query->select(DB::raw(1))
+    //                 ->from('class_students')
+    //                 ->whereRaw('class_students.class_room_id =' . $class_id)
+    //                 ->whereRaw('class_students.student_id = students.id');
+    //         })
+    //         ->get();
+    //     // dd($students);
+    //     return view('kelas_siswa.create_by_student');
+    // }
 
     public function profileStudent()
     {

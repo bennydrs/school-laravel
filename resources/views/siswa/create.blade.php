@@ -14,11 +14,13 @@
          <!-- /.card-header -->
          <!-- form start -->
 
-         @php
+         {{-- @php
          $default = 1000;
          $tahunMasuk = date('Y');
-         $nis = $tahunMasuk .= $default++;
-         @endphp
+         $nomor = $default+ 1;
+         dd($nomor);
+         $nis = $tahunMasuk;
+         @endphp --}}
 
          <form method="post" action="/students" role="form" enctype="multipart/form-data">
             @csrf
@@ -26,7 +28,7 @@
                <div class="form-group">
                   <label for="nis">NIS</label>
                   <input type="text" name="nis" class="form-control @error('nis') is-invalid @enderror" id="nis"
-                     placeholder="Masukkan nis" value="{{ $nis }}" readonly>
+                     placeholder="Masukkan nis" value="{{ $nisTerakhir +1 }}" readonly>
                   @error('nis') <div class="invalid-feedback">{{ $message }}</div> @enderror
                </div>
 
@@ -101,39 +103,39 @@
                   @error('alamat') <div class="invalid-feedback">{{ $message }}</div> @enderror
                </div>
 
-               <div class="form-group">
+               {{-- <div class="form-group">
                   <label for="class_room_id">Kelas</label>
                   <select class="form-control custom-select @error('class_room_id') is-invalid @enderror"
                      id="class_room_id" name="class_room_id">
                      <option value="" selected="" disabled="">Pilih kelas</option>
                      @foreach ($classes as $class)
                      <option value="{{ $class->id }}" {{ old('class_room_id') == $class->id ? 'selected' : '' }}>
-                        {{$class->nama}}</option>
-                     @endforeach
-                  </select>
-                  @error('class_room_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-               </div>
+               {{$class->nama}}</option>
+               @endforeach
+               </select>
+               @error('class_room_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div> --}}
 
-               <div class="form-group">
-                  <label for="exampleInputFile">Foto</label>
-                  <div class="input-group">
-                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="foto" id="customFile">
-                        <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
-                     </div>
+            <div class="form-group">
+               <label for="exampleInputFile">Foto</label>
+               <div class="input-group">
+                  <div class="custom-file">
+                     <input type="file" class="custom-file-input" name="foto" id="customFile">
+                     <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
                   </div>
                </div>
-
             </div>
-            <!-- /.card-body -->
 
-            <div class="card-footer">
-               <button type="submit" class="btn btn-primary">Tambah Data</button>
-               <a href="/students" class="btn btn-warning">Batal</a>
-            </div>
-         </form>
       </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+         <button type="submit" class="btn btn-primary">Tambah Data</button>
+         <a href="/students" class="btn btn-warning">Batal</a>
+      </div>
+      </form>
    </div>
+</div>
 </div>
 
 
