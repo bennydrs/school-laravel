@@ -39,6 +39,8 @@
 </div>
 </form>
 
+<a href="" class="btn btn-primary btn-sm mb-3">Tambah</a>
+
 @if(isset($_GET['semester']))
 @if($classStudents->isNotEmpty())
 
@@ -60,7 +62,7 @@
          <div class="card-body">
 
             <a href="/class-students/semester/{{ $_GET['semester'] }}/class/{{ $cs->class_room_id }}/create"
-               class="btn btn-primary btn-sm mb-3 g" data-toggle="modal" data-target="#exampleModal"
+               class="btn btn-primary btn-sm mb-3 tambah" data-toggle="modal" data-target="#exampleModal"
                data-id="{{ $cs->class_room_id }}">Tambah</a>
 
             <table class="table table-bordered table-striped" id="datatable{{ $cs->id}}">
@@ -74,13 +76,14 @@
                <tbody>
                   @foreach ($students as $item)
 
-                  <tr>
+                  <tr id='kuda'>
                      <td>{{ $loop->iteration }}</td>
                      <td>
                         {{ isset($item->student->nama) ?  ucfirst($item->student->nama)  : 'no first name!' }}</td>
                      <td>
                         {{-- <a href="/class-student/{{ $item->id }}/edit" class="btn btn-warning btn-sm">edit</a> --}}
-                        <form action="/class-student/{{ $cs->id }}" method="post" class="d-inline delete">
+                        {{-- <a href="" class="button" data-id="{{ $item->id}}">Delete</a> --}}
+                        <form action="/class-students/{{ $item->id }}" method="post" class="d-inline s">
                            @csrf
                            @method('delete')
                            <button type="submit" class="btn btn-danger btn-sm">hapus</button>
@@ -100,7 +103,7 @@
 
 @else
 <div class="alert alert-danger">
-   Data jadwal tidak ada
+   Data kelas siswa tidak ada
 </div>
 @endif
 
@@ -114,7 +117,7 @@
 
 
 <!-- Modal -->
-
+@if(isset($_GET['semester']))
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
    aria-hidden="true">
    <div class="modal-dialog" role="document">
@@ -137,22 +140,22 @@
                         </div>
                      </th>
                   </tr>
-                  @foreach ($studentNotExists as $item)
+                  @foreach ($studentNotExists as $sne)
 
                   <tr>
                      <td>
                         <div class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" id="student_id{{$item->id}}"
-                              name="student_id[]" value="{{$item->id}}">
-                           <label class="custom-control-label" for="student_id{{$item->id}}">{{$item->nama}}</label>
+                           <input type="checkbox" class="custom-control-input" id="student_id{{$sne->id}}"
+                              name="student_id[]" value="{{$sne->id}}">
+                           <label class="custom-control-label" for="student_id{{$sne->id}}">{{$sne->nama}}</label>
                         </div>
                      </td>
                   </tr>
                   @endforeach
                </table>
 
-
-               <input type="hidden" id="d" name="class_room_id" value="" />
+               <input type="hidden" id="class_room_id" name="class_room_id" value="" />
+               <input type="hidden" id="d" name="semester_id" value="{{ $_GET['semester'] }}" />
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -162,6 +165,8 @@
       </div>
    </div>
 </div>
+@endif
+
 @endsection
 
 @section('script')
@@ -172,105 +177,48 @@
       });
 
 
-      $(".g").click(function(){
+      $(".tambah").click(function(){
          var id =$(this).attr('data-id');
-         $("#d").val(id);
+         $("#class_room_id").val(id);
          console.log(id)
       })
 
       $('#selectAll').click(function (e) {
          $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
       });
-
-        // var oTable = $('#datatable').DataTable({
-        //     processing: true,
-        //     serverSide: true,
-        //     ajax: {
-        //         url: "/getdataschedules",
-        //         type: "get",
-        //         data: function (d) {
-        //             d.kelas = $('select[name=kelas]').val();
-        //             d.semester = $('select[name=semester]').val();
-        //         }
-        //     },
-        //     columns: [
-        //         {data: 'hari', name: 'hari'},
-        //         {data: 'jam_mulai', name: 'jam_mulai'},
-        //         {data: 'jam_selesai', name: 'jam_selesai'},
-        //         {data: 'mapel', name: 'mapel'},
-        //         {data: 'guru', name: 'guru'},
-        //         {data: 'semester', name: 'semester'},
-        //         {data: 'aksi', name: 'aksi'}
-        //     ]
-        // });
-        // // jQuery.fn.preventDoubleSubmission = function() {
-        // $('#search-form').on('submit', function(e) {
-        //     $(".card-title").text('')
-        //     $(".tombol").text('')
-            
-        //     oTable.draw();
-        //     e.preventDefault();
-        //     let kelasId = $("#kelas").val()
-        //     let kelas = $("#kelas option:selected").text()
-        //     let semester = $("#semester option:selected").text()
-           
-        //     window.location.href+'?'+kelasId
-        //     $(".card-title").append(' Kelas ' + kelas + ' Semester ' + semester)
-        //     $(".tombol").append("<a href='/schedules/" + kelasId +"/create' class='btn btn-primary btn-sm mb-3'>Tambah Jadwal</a>")
-
-        // });
         
 
-        $('#datatable').on('click', '.delete', function(e) {
-
-            e.preventDefault();
-            const form = $(this).attr('action');
-
-            Swal.fire({
-                title: 'Apa kamu yakin?',
-                text: "Data jadwal ini akan hilang!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!'
-            }).then((result) => {
-                if (result.value) {
-                    $('.delete').submit();
-                }
-            })
-        });
     });
+
+    $('.s').submit(function(e) {
+      if(confirm('Do you really want to submit the form?')) {
+        return true;
+    }
+
+    return false
+   });
+
+
+      // $('.delete').on("submit", function(e) {
+
+      //       e.preventDefault();
+      //             const form = $(this).attr('action');
+      //             console.log(form)
+            
+
+      //       Swal.fire({
+      //           title: 'Apa kamu yakin?',
+      //           text: "Data siswa ini akan keluar dari kelas!",
+      //           type: 'warning',
+      //           showCancelButton: true,
+      //           confirmButtonColor: '#3085d6',
+      //           cancelButtonColor: '#d33',
+      //           confirmButtonText: 'Ya, Hapus!'
+      //       }).then((result) => {
+      //           if (result.value) {
+      //             $('.delete').submit();
+      //           }
+      //       })
+      //   });
 </script>
 @endsection
-
-{{-- <form action="" method="post" id="search-form">
-            <div class="row">
-                <div class="col-auto">
-                    <div class="form-group">
-                        <select name="kelas" id="kelas" class="form-control custom-select">
-                            <option value="">Pilih kelas</option>
-                            @foreach ($classes as $class)
-                            <option value="{{$class->id}}"
-{{ old('kelas') == $class->id ? 'selected' : '' }}>{{ $class->nama }}</option>
-@endforeach
-</select>
-</div>
-</div>
-<div class="col-auto">
-   <div class="form-group">
-      <select name="semester" id="semester" class="form-control custom-select">
-         <option value="">Pilih semester</option>
-         @foreach ($semesters as $semester)
-         <option value="{{$semester->id}}">{{ $semester->tahun_ajaran .' | '. $semester->semester }}
-         </option>
-         @endforeach
-      </select>
-   </div>
-</div>
-<div class="col-auto">
-   <button type="submit" class="btn btn-success">Tampilkan</button>
-</div>
-</div>
-
-</form> --}}

@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('/class-students', 'StudentsController@classStudent');
     // Route::get('/class-students/semester/{semester_id}/class/{class_id}/create', 'StudentsController@createClassStudentByStudent');
     Route::post('/class-student-by-student', 'StudentsController@storeClassStudentByStudent');
+    Route::delete('/class-students/{classStudent}', 'StudentsController@destroyClassStudent');
 
     Route::get('/teachers', 'TeachersController@index');
     Route::get('teachers/create', 'TeachersController@create');

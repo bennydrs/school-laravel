@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ClassRoom;
+use App\ClassStudent;
 use App\Student;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
@@ -182,24 +184,42 @@ class StudentsController extends Controller
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
         $classStudents = \App\ClassStudent::where('semester_id', '=', $semester_id)->get();
-
-        $studentNotExists = DB::table('students')
-            ->select('students.id', 'students.nama')
-            ->whereNotExists(function ($query) use ($semester_id) {
-                $query->select(DB::raw(1))
-                    ->from('class_students')
-                    ->whereRaw('class_students.semester_id =' . $semester_id)
-                    ->whereRaw('class_students.student_id = students.id');
-            })
-            ->get();
-        // dd($studentNotExists);
-
-        return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters', 'studentNotExists'));
+        if ($request->all()) {
+            $studentNotExists = DB::table('students')
+                ->select('students.id', 'students.nama')
+                ->whereNotExists(function ($query) use ($semester_id) {
+                    $query->select(DB::raw(1))
+                        ->from('class_students')
+                        ->whereRaw('class_students.semester_id =' . $semester_id)
+                        ->whereRaw('class_students.student_id = students.id');
+                })
+                ->get();
+            // dd($studentNotExists);
+            return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters', 'studentNotExists'));
+        } else {
+            return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters'));
+        }
     }
 
     public function storeClassStudentByStudent(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        foreach ($request->student_id as $key => $value) {
+            // dd($value);
+            ClassStudent::create([
+                'student_id' => $value,
+                'class_room_id' => $request->class_room_id,
+                'semester_id' => $request->semester_id,
+            ]);
+        }
+        return redirect('class-students?semester=' . $request->semester_id)->with('status', 'Data kelas siswa berhasil ditambah!');
+    }
+
+    public function destroyClassStudent(ClassStudent $classStudent)
+    {
+        dd($classStudent);
+        ClassStudent::destroy($classStudent->id);
+        return redirect('class-students?semester=' . $classStudent->semester_id)->with('status', 'Data kelas siswa berhasil dihapus!');
     }
 
     // public function createClassStudentByStudent($semester_id, $class_id)
