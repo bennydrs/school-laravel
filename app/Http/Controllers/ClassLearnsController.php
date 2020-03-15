@@ -119,7 +119,7 @@ class ClassLearnsController extends Controller
 
     public function getdataclassLearn()
     {
-        $classLearns = ClassLearn::select('class_learns.*');
+        $classLearns = ClassLearn::select('class_learns.*')->orderBy('class_room_id', 'asc');
 
         return \DataTables::eloquent($classLearns)
             ->addIndexColumn()
