@@ -21,4 +21,8 @@ class ClassStudent extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
 }

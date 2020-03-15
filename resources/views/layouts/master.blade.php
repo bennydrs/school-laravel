@@ -48,7 +48,7 @@
          </ul>
 
          <!-- SEARCH FORM -->
-         <form class="form-inline ml-3">
+         {{-- <form class="form-inline ml-3">
             <div class="input-group input-group-sm">
                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                <div class="input-group-append">
@@ -57,41 +57,24 @@
                   </button>
                </div>
             </div>
-         </form>
+         </form> --}}
 
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
 
             <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
-                  <i class="far fa-bell"></i>
-                  <span class="badge badge-warning navbar-badge">15</span>
+                  {{-- <i class="far fa-bell"></i> --}}
+                  {{auth()->user()->name}}
+                  {{-- <span class="badge badge-warning navbar-badge">15</span> --}}
                </a>
                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                  <span class="dropdown-item dropdown-header">15 Notifications</span>
-                  <div class="dropdown-divider"></div>
                   <a href="#" class="dropdown-item">
-                     <i class="fas fa-envelope mr-2"></i> 4 new messages
-                     <span class="float-right text-muted text-sm">3 mins</span>
+                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
-                     <i class="fas fa-users mr-2"></i> 8 friend requests
-                     <span class="float-right text-muted text-sm">12 hours</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
-                     <i class="fas fa-file mr-2"></i> 3 new reports
-                     <span class="float-right text-muted text-sm">2 days</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+
                </div>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                  <i class="fas fa-th-large"></i>
-               </a>
             </li>
          </ul>
       </nav>
@@ -187,7 +170,7 @@
 
                   <li class="nav-item">
                      <a href="/wali-kelas" class="nav-link {{ Request::is('wali-kelas*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-calendar"></i>
+                        <i class="nav-icon fas fa-user-alt"></i>
                         <p>Wali Kelas</p>
                      </a>
                   </li>
@@ -201,17 +184,17 @@
 
                   <li class="nav-item">
                      <a href="/class-students" class="nav-link {{ Request::is('class-students*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <i class="nav-icon fas fa-chair"></i>
                         <p>Kelas Siswa</p>
                      </a>
                   </li>
 
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                      <a href="/absents" class="nav-link {{ Request::is('absents*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>Absensi Siswa</p>
-                     </a>
-                  </li>
+                  <i class="nav-icon fas fa-table"></i>
+                  <p>Absensi Siswa</p>
+                  </a>
+                  </li> --}}
 
                   <li class="nav-item">
                      <a href="/schedules" class="nav-link {{ Request::is('schedules*') ? 'active' : '' }}">
@@ -381,11 +364,7 @@
       <!-- /.content-wrapper -->
 
       <footer class="main-footer">
-         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.3-pre
-         </div>
-         <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-         reserved.
+         <strong>Copyright &copy; {{ date('Y') }} </strong> Benny Ds.
       </footer>
 
       <!-- Control Sidebar -->

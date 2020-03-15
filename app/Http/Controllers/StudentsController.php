@@ -186,6 +186,7 @@ class StudentsController extends Controller
         $classStudents = \App\ClassStudent::where('semester_id', '=', $semester_id)->get();
         if ($request->all()) {
             $studentNotExists = DB::table('students')
+                // ->leftJoin('class_students', 'class_students.student_id', '=', 'students.id')
                 ->select('students.id', 'students.nama')
                 ->whereNotExists(function ($query) use ($semester_id) {
                     $query->select(DB::raw(1))
@@ -193,6 +194,7 @@ class StudentsController extends Controller
                         ->whereRaw('class_students.semester_id =' . $semester_id)
                         ->whereRaw('class_students.student_id = students.id');
                 })
+                // ->orderBy('class_students.class_room_id', 'asc')
                 ->get();
             // dd($studentNotExists);
             return view('kelas_siswa.index', compact('classStudents', 'classes', 'semesters', 'studentNotExists'));
@@ -203,7 +205,6 @@ class StudentsController extends Controller
 
     public function storeClassStudentByStudent(Request $request)
     {
-        // dd($request->all());
         foreach ($request->student_id as $key => $value) {
             // dd($value);
             ClassStudent::create([
@@ -217,9 +218,15 @@ class StudentsController extends Controller
 
     public function destroyClassStudent(ClassStudent $classStudent)
     {
-        dd($classStudent);
+        // dd($classStudent);
         ClassStudent::destroy($classStudent->id);
         return redirect('class-students?semester=' . $classStudent->semester_id)->with('status', 'Data kelas siswa berhasil dihapus!');
+    }
+
+    public function createClassStudent($semester_id)
+    {
+        $semester = \App\Semester::find($semester_id);
+        return view('kelas_siswa.create', compact('semester'));
     }
 
     // public function createClassStudentByStudent($semester_id, $class_id)

@@ -39,31 +39,35 @@
 </div>
 </form>
 
-<a href="" class="btn btn-primary btn-sm mb-3">Tambah</a>
 
 @if(isset($_GET['semester']))
-@if($classStudents->isNotEmpty())
+{{-- <a href="/class-students/{{ $_GET['semester'] }}/create" class="btn btn-primary btn-sm mb-3">Tambah</a> --}}
+{{-- @if($classStudents->isNotEmpty()) --}}
 
 <div class="row">
 
-   @foreach ($classStudents->unique('class_room_id') as $cs)
+   {{-- @foreach ($classStudents->unique('class_room_id') as $cs)
    @php
    $students = \App\ClassStudent::where('class_room_id', $cs->class_room_id)->get();
+   @endphp --}}
+
+   @foreach ($classes as $cs)
+   @php
+   $students = \App\ClassStudent::where('class_room_id', $cs->id)->where('semester_id', $_GET['semester'])->get();
    @endphp
 
    <div class="col-md-6">
       <div class="card">
          <div class="card-header">
             <div class="card-title">
-               Data Kelas {{ $cs->classRoom->nama }}
+               Data Kelas {{ $cs->nama }}
             </div>
          </div>
 
          <div class="card-body">
 
-            <a href="/class-students/semester/{{ $_GET['semester'] }}/class/{{ $cs->class_room_id }}/create"
-               class="btn btn-primary btn-sm mb-3 tambah" data-toggle="modal" data-target="#exampleModal"
-               data-id="{{ $cs->class_room_id }}">Tambah</a>
+            <a href="" class="btn btn-primary btn-sm mb-3 tambah" data-toggle="modal" data-target="#exampleModal"
+               data-id="{{ $cs->id }}" data-class="Kelas {{ $cs->nama }}">Tambah</a>
 
             <table class="table table-bordered table-striped" id="datatable{{ $cs->id}}">
                <thead>
@@ -76,7 +80,7 @@
                <tbody>
                   @foreach ($students as $item)
 
-                  <tr id='kuda'>
+                  <tr>
                      <td>{{ $loop->iteration }}</td>
                      <td>
                         {{ isset($item->student->nama) ?  ucfirst($item->student->nama)  : 'no first name!' }}</td>
@@ -101,11 +105,11 @@
    @endforeach
 </div>
 
-@else
+{{-- @else
 <div class="alert alert-danger">
    Data kelas siswa tidak ada
 </div>
-@endif
+@endif --}}
 
 @else
 <div class="alert alert-info">
@@ -131,27 +135,45 @@
          <div class="modal-body">
             <form action="/class-student-by-student" method="post">
                @csrf
-               <table>
-                  <tr>
-                     <th>
-                        <div class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" id="selectAll">
-                           <label class="custom-control-label" for="selectAll">Pilih Semua</label>
-                        </div>
-                     </th>
-                  </tr>
-                  @foreach ($studentNotExists as $sne)
+               <div class="custom-control custom-checkbox mb-3">
+                  <input type="checkbox" class="custom-control-input" id="selectAll">
+                  <label class="custom-control-label" for="selectAll">Pilih Semua</label>
+               </div>
+               <table class="table" id="modalTable">
+                  <thead>
+                     <tr>
+                        <th>Nama</th>
+                        <th>Kelas Terakhir</th>
+                        <th>Semester Terakhir</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     @foreach ($studentNotExists as $sne)
 
-                  <tr>
-                     <td>
-                        <div class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" id="student_id{{$sne->id}}"
-                              name="student_id[]" value="{{$sne->id}}">
-                           <label class="custom-control-label" for="student_id{{$sne->id}}">{{$sne->nama}}</label>
-                        </div>
-                     </td>
-                  </tr>
-                  @endforeach
+                     @php
+                     $last = \App\ClassStudent::where('student_id', $sne->id)->latest()->first();
+                     // dd($last);
+                     @endphp
+
+                     <tr>
+                        <td>
+                           <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="student_id{{$sne->id}}"
+                                 name="student_id[]" value="{{$sne->id}}">
+                              <label class="custom-control-label" for="student_id{{$sne->id}}">{{$sne->nama}}</label>
+                           </div>
+                        </td>
+                        {{-- @foreach ($last as $l) --}}
+                        <td>{{isset($last->classRoom->nama) ?  ucfirst($last->classRoom->nama)  : '-' }}
+
+                        </td>
+                        <td>
+                           {{isset($last->semester->tahun_ajaran) ?  ucfirst($last->semester->tahun_ajaran)  : '-!'}}
+                        </td>
+                        {{-- @endforeach --}}
+                     </tr>
+                     @endforeach
+                  </tbody>
                </table>
 
                <input type="hidden" id="class_room_id" name="class_room_id" value="" />
@@ -176,15 +198,25 @@
          "pageLength": 50
       });
 
+      $("#modalTable").DataTable({
+         "pageLength": 50
+      });
+
 
       $(".tambah").click(function(){
-         var id =$(this).attr('data-id');
+         var id = $(this).attr('data-id');
          $("#class_room_id").val(id);
-         console.log(id)
+
+         var classRoom = $(this).attr('data-class')
+         $(".modal-title").html(classRoom);
       })
 
-      $('#selectAll').click(function (e) {
-         $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+      // $('#selectAll').click(function (e) {
+      //    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+      // });
+
+      $("#selectAll").click(function () {
+         $('input:checkbox').not(this).prop('checked', this.checked);
       });
         
 

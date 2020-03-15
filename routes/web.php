@@ -33,7 +33,6 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('students/{student}', 'StudentsController@show');
 
     Route::get('/class-students', 'StudentsController@classStudent');
-    // Route::get('/class-students/semester/{semester_id}/class/{class_id}/create', 'StudentsController@createClassStudentByStudent');
     Route::post('/class-student-by-student', 'StudentsController@storeClassStudentByStudent');
     Route::delete('/class-students/{classStudent}', 'StudentsController@destroyClassStudent');
 
