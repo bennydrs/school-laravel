@@ -103,10 +103,73 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::put('grades/{grade}', 'GradesController@update');
     Route::delete('grades/{grade}', 'GradesController@destroy');
     Route::get('grades/{grade}', 'GradesController@show');
+
+    Route::get('/informations', 'InformationsController@index');
+    Route::get('informations/create', 'InformationsController@create');
+    Route::post('informations', 'InformationsController@store');
+    Route::get('informations/{information}/edit', 'InformationsController@edit');
+    Route::put('informations/{information}', 'InformationsController@update');
+    Route::delete('informations/{information}', 'InformationsController@destroy');
+    Route::get('informations/{information}', 'InformationsController@show');
+
+
+    //ajax
+    // get data student untuk datatable serverside
+    Route::get('getdatastudents', [
+        'uses' => 'StudentsController@getdatastudent',
+        'as' => 'ajax.get.data.student',
+    ]);
+
+    Route::get('getdatateachers', [
+        'uses' => 'TeachersController@getdatateachers',
+        'as' => 'ajax.get.data.teachers',
+    ]);
+
+    Route::get('getdataclass', [
+        'uses' => 'ClassRoomsController@getdataclass',
+        'as' => 'ajax.get.data.class',
+    ]);
+
+    Route::get('getdatasubject', [
+        'uses' => 'SubjectsController@getdatasubject',
+        'as' => 'ajax.get.data.subject',
+    ]);
+
+    Route::get('getdatasemester', [
+        'uses' => 'SemestersController@getdatasemester',
+        'as' => 'ajax.get.data.semester',
+    ]);
+
+    Route::get('getdataclassLearn', [
+        'uses' => 'ClassLearnsController@getdataclassLearn',
+        'as' => 'ajax.get.data.classLearn',
+    ]);
+
+    Route::get('getdataadmin', [
+        'uses' => 'AdminsController@getdataadmin',
+        'as' => 'ajax.get.data.admin',
+    ]);
+
+    Route::get('getdatascheduleclass', [
+        'uses' => 'SchedulesController@getdataclass',
+        'as' => 'ajax.get.data.scheduleclass',
+    ]);
+
+    Route::get('/getdataschedules', 'SchedulesController@getCustomFilterDataSchedule');
+
+    Route::get('/getdataschedule/{kelas_id}/{semester_id}', 'SchedulesController@getdataschedule');
+
+    Route::get('getdatainformation', [
+        'uses' => 'InformationsController@getdatainformation',
+        'as' => 'ajax.get.data.information',
+    ]);
+
+    //end ajax
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'], function () {
     Route::get('/dashboard', 'DashboardController@student');
+    Route::get('/dashboard/information/{information_id}', 'DashboardController@showInformation');
     Route::get('/profile', 'StudentsController@profileStudent');
     Route::get('/schedules', 'StudentsController@schedulesStudent');
 });
@@ -123,50 +186,3 @@ Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher']
     Route::get('/homeroom-teacher/class/{class_id}/semester/{semester_id}', 'TeachersController@showStudentHomeroomTeacher');
     Route::get('/homeroom-teacher/grades/class-student/{class_student_id}/semester/{semester_id}', 'TeachersController@showGradeHomeroomTeacher');
 });
-
-//ajax
-// get data student untuk datatable serverside
-Route::get('getdatastudents', [
-    'uses' => 'StudentsController@getdatastudent',
-    'as' => 'ajax.get.data.student',
-]);
-
-Route::get('getdatateachers', [
-    'uses' => 'TeachersController@getdatateachers',
-    'as' => 'ajax.get.data.teachers',
-]);
-
-Route::get('getdataclass', [
-    'uses' => 'ClassRoomsController@getdataclass',
-    'as' => 'ajax.get.data.class',
-]);
-
-Route::get('getdatasubject', [
-    'uses' => 'SubjectsController@getdatasubject',
-    'as' => 'ajax.get.data.subject',
-]);
-
-Route::get('getdatasemester', [
-    'uses' => 'SemestersController@getdatasemester',
-    'as' => 'ajax.get.data.semester',
-]);
-
-Route::get('getdataclassLearn', [
-    'uses' => 'ClassLearnsController@getdataclassLearn',
-    'as' => 'ajax.get.data.classLearn',
-]);
-
-Route::get('getdataadmin', [
-    'uses' => 'AdminsController@getdataadmin',
-    'as' => 'ajax.get.data.admin',
-]);
-
-Route::get('getdatascheduleclass', [
-    'uses' => 'SchedulesController@getdataclass',
-    'as' => 'ajax.get.data.scheduleclass',
-]);
-Route::get('/getdataschedules', 'SchedulesController@getCustomFilterDataSchedule');
-
-Route::get('/getdataschedule/{kelas_id}/{semester_id}', 'SchedulesController@getdataschedule');
-
-//end ajax

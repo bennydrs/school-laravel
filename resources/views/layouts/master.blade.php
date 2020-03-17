@@ -23,6 +23,7 @@
    <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}">
    <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+   @yield('style')
 
    <!-- Google Font: Source Sans Pro -->
    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -114,7 +115,8 @@
                         /admins/{{ auth()->user()->admin->id }}
                         @else
                         /teahers/{{ auth()->user()->teacher->id }}
-                        @endif" class="d-block">{{ auth()->user()->name }}</a>
+                        @endif" class="d-block">{{ auth()->user()->name }}
+                  </a>
                </div>
             </div>
 
@@ -211,17 +213,25 @@
                   </li>
 
                   <li class="nav-item">
+                     <a href="/informations" class="nav-link {{ Request::is('informations*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>Pengumuman</p>
+                     </a>
+                  </li>
+
+                  <li class="nav-item">
                      <a href="/admins" class="nav-link {{ Request::is('admins*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>Admin</p>
                      </a>
                   </li>
 
+
                   @elseif(auth()->user()->role == 'siswa')
 
                   <li class="nav-item">
                      <a href="/student/dashboard"
-                        class="nav-link {{ Request::is('student/dashboard') ? 'active' : '' }}">
+                        class="nav-link {{ Request::is('student/dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                      </a>
