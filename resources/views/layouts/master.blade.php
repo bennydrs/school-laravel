@@ -238,7 +238,7 @@
                   </li>
 
                   <li class="nav-item">
-                     <a href="/student/nilai" class="nav-link {{ Request::is('student/nilai') ? 'active' : '' }}">
+                     <a href="/student/grades" class="nav-link {{ Request::is('student/grades') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>Nilai</p>
                      </a>

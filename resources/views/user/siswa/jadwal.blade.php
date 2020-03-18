@@ -8,15 +8,16 @@
 <div class="row">
    <div class="col-lg">
 
-      <form action="/teacher/schedules" method="get">
+      <form action="/student/schedules" method="get">
          <div class="row">
             <div class="col-auto">
                <div class="form-group">
                   <select name="kelas" id="kelas" class="form-control" required>
                      <option value="">Pilih kelas</option>
                      @foreach ($classes as $class)
-                     <option value="{{$class->id}}" {{ ($_GET) ? $_GET['kelas'] == $class->id ? 'selected' : '' : '' }}>
-                        {{ $class->nama }}</option>
+                     <option value="{{$class->class_room_id}}"
+                        {{ ($_GET) ? $_GET['kelas'] == $class->class_room_id ? 'selected' : '' : '' }}>
+                        {{ $class->classRoom->nama }}</option>
                      @endforeach
                   </select>
                </div>
@@ -103,26 +104,6 @@
 <script>
    $(document).ready(function(){
       $('#datatable').DataTable();
-
-      $('#datatable').on('click', '.delete', function(e) {
-
-         e.preventDefault();
-         const form = $(this).attr('action');
-
-         Swal.fire({
-               title: 'Apa kamu yakin?',
-               text: "Data jadwal ini akan hilang!",
-               type: 'warning',
-               showCancelButton: true,
-               confirmButtonColor: '#3085d6',
-               cancelButtonColor: '#d33',
-               confirmButtonText: 'Ya, Hapus!'
-         }).then((result) => {
-               if (result.value) {
-                  $('.delete').submit();
-               }
-         })
-      });
    });
 </script>
 @endsection

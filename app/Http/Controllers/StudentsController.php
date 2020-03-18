@@ -254,9 +254,21 @@ class StudentsController extends Controller
 
     public function schedulesStudent(Request $request)
     {
-        $classes = \App\ClassRoom::all();
+        // dd(auth()->user()->student->id);
+        $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
         $semesters = \App\Semester::all();
         $schedules = \App\Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
         return view('user.siswa.jadwal', compact('schedules', 'classes', 'semesters'));
+    }
+
+    public function gradesStudent(Request $request)
+    {
+        $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
+        // dd($classes);
+        $semesters = \App\Semester::all();
+        // $id = auth()->user()->student->id;
+
+        $grades = \App\Grade::where('class_student_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+        return view('user.siswa.nilai', compact('classes', 'semesters', 'grades'));
     }
 }

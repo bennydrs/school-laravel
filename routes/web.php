@@ -172,6 +172,7 @@ Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'
     Route::get('/dashboard/information/{information_id}', 'DashboardController@showInformation');
     Route::get('/profile', 'StudentsController@profileStudent');
     Route::get('/schedules', 'StudentsController@schedulesStudent');
+    Route::get('/grades', 'StudentsController@gradesStudent');
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {

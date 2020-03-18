@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class SchedulesController extends Controller
 {
-
     public function index(Request $request)
     {
         // dd($request->all());
