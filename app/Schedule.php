@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Schedule extends Model
 {
     // protected $with = array('classlearn');
-    protected $fillable = ['hari', 'jam_mulai', 'jam_selesai', 'class_student_id', 'class_learn_id', 'semester_id', 'teacher_id'];
+    protected $fillable = ['hari', 'jam_mulai', 'jam_selesai', 'class_room_id', 'class_learn_id', 'semester_id', 'teacher_id'];
 
     public function classLearn()
     {

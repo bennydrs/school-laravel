@@ -63,7 +63,7 @@
                   @error('jam_selesai') <div class=" invalid-feedback">{{ $message }}</div> @enderror
                </div>
 
-               <input type="hidden" name="class_student_id" class="class_id" value="{{ $classStudent->id }}">
+               <input type="text" name="class_room_id" class="class_id" value="{{ $classStudent->class_room_id }}">
                <input type="hidden" name="semester_id" value="{{ $semester->id }}">
 
                <div class="form-group">

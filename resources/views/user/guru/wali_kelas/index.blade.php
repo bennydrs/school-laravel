@@ -93,7 +93,7 @@
                         {{ isset($ht->classRoom->nama) ?  ucfirst($ht->classRoom->nama)  : 'no name!' }}
                      </td>
                      <td>
-                        {{ isset($ht->semester->tahun_ajaran) ?  ucfirst($ht->semester->tahun_ajaran)  : 'no name!' }}
+                        {{ $ht->semester->tahun_ajaran .' | '. $ht->semester->semester }}
                      </td>
                      <td>
                         <a href="/teacher/homeroom-teacher/class/{{ $ht->class_room_id }}/semester/{{ $_GET['semester'] }}"

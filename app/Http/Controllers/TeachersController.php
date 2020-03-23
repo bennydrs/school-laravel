@@ -70,9 +70,14 @@ class TeachersController extends Controller
         $user->remember_token = str_random(60);
         $user->save();
 
-        // insert ke students
+        // insert ke teacher
         $request->request->add(['user_id' => $user->id]);
-        Teacher::create($request->all());
+        $teacher = Teacher::create($request->all());
+        if ($request->hasFile('foto')) {
+            $request->file('foto')->move('img/guru', $request->file('foto')->getClientOriginalName());
+            $teacher->foto = $request->file('foto')->getClientOriginalName();
+            $teacher->save();
+        }
 
         return redirect('/teachers')->with('status', 'Data berhasil ditambah');
     }
@@ -208,10 +213,11 @@ class TeachersController extends Controller
             $students = DB::table('class_students')->where('class_room_id', $class_id)
                 ->join('students', 'students.id', '=', 'class_students.student_id')
                 ->select('students.nama', 'class_students.*')
-                ->whereNotExists(function ($query) use ($id) {
+                ->whereNotExists(function ($query) use ($id, $semester_id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
                         ->whereRaw('grades.class_learn_id =' . $id)
+                        ->whereRaw('grades.semester_id =' . $semester_id)
                         ->whereRaw('grades.class_student_id = class_students.id');
                 })
                 ->get();
@@ -244,6 +250,7 @@ class TeachersController extends Controller
     public function indexHomeroomTeacher(Request $request)
     {
         $semesters = \App\Semester::all();
+
         $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
         // $classStudentId = \App\ClassStudent::where('class_room_id', '=', $homeroomTeachers->class_room_id)->get();
         // dd($classStudentId);
@@ -257,10 +264,14 @@ class TeachersController extends Controller
         // $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
         // dd($request->all());
         // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
+        $semester = \App\Semester::where('id', $semester_id)->first();
+        // dd($semester->tahun_ajaran);
+        $s = \App\Semester::where('tahun_ajaran', $semester->tahun_ajaran)->get();
+        // dd($s);
         $classStudents = \App\ClassStudent::where('class_room_id', $class_id)->where('semester_id', $semester_id)->get();
         // dd($classes);
         // $grades = \App\Grade::where('class_room_id', $class_id)->get();
-        return view('user.guru.wali_kelas.show_student', compact('classStudents'));
+        return view('user.guru.wali_kelas.show_student', compact('classStudents', 's'));
     }
 
     public function showGradeHomeroomTeacher($class_student_id, $semester_id)
@@ -277,7 +288,7 @@ class TeachersController extends Controller
 
         $nilai = DB::table('class_learns')
             ->leftJoin('subjects', 'subjects.id', '=', 'class_learns.subject_id')
-            ->select('class_learns.*', 'grades.*', 'subjects.nama')
+            ->select('class_learns.*', 'grades.*', 'grades.class_learn_id', 'subjects.nama')
             ->leftJoin('grades', function ($leftJoin) use ($class_student_id, $semester_id, $class_room_id) {
                 $leftJoin->on('grades.class_learn_id', '=', 'class_learns.id');
                 $leftJoin->where('grades.class_room_id', '=', $class_room_id);
@@ -285,6 +296,7 @@ class TeachersController extends Controller
                 $leftJoin->where('grades.class_student_id', '=', $class_student_id);
                 // $leftJoin->on(DB::raw('grades.class_student_id'), DB::raw('='), DB::raw("'" . $class_student_id . "'"));
             })->get();
+        // dd($nilai);
 
         return view('user.guru.wali_kelas.show_grade', compact('student', 'nilai', 'class_room_id', 'semester_id'));
     }

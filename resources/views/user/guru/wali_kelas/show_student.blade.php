@@ -30,7 +30,7 @@
                            <th>Nama</th>
                            <th>Jenis Kelamin</th>
                            <th>Alamat</th>
-                           <th>Aksi</th>
+                           <th>Nilai</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -56,8 +56,11 @@
                               {{ isset($classStudent->student->alamat) ?  ucfirst($classStudent->student->alamat)  : 'no address!' }}
                            </td>
                            <td>
-                              <a href="/teacher/homeroom-teacher/grades/class-student/{{ $classStudent->id }}/semester/{{ $classStudent->semester_id }}"
-                                 class="btn btn-info btn-sm">Nilai</a>
+                              @foreach ($s as $item)
+                              <a href="/teacher/homeroom-teacher/grades/class-student/{{ $classStudent->id }}/semester/{{ $item->id }}"
+                                 class="btn btn-info btn-sm">{{$item->semester}}</a>
+
+                              @endforeach
                            </td>
                         </tr>
                         @endforeach

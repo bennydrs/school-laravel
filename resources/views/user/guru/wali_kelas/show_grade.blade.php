@@ -61,12 +61,12 @@
                         @endphp
                         @foreach ($nilai->unique('subject_id') as $grade)
                         @php
-                        $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_1;
+                        $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
                         $rata2tugas = $jmltugas / 2;
 
-                        $tugas = $rata2tugas * 25/100;
-                        $uts = $grade->nilai_uts * 35/100;
-                        $uas = $grade->nilai_uas * 40/100;
+                        $tugas = $rata2tugas * 0.25;
+                        $uts = $grade->nilai_uts * 0.35;
+                        $uas = $grade->nilai_uas * 0.40;
                         $rata2 = $tugas + $uts + $uas;
 
                         $sum += $rata2
@@ -90,7 +90,7 @@
                               {{ isset($grade->nilai_uas) ?  ucfirst($grade->nilai_uas)  : '-' }}
                            </td>
                            <td>
-                              {{ ($rata2) ? ($rata2)  : '-' }}
+                              {{ (round($rata2,2)) ? (round($rata2,2))  : '-' }}
                            </td>
                            <td>
 
@@ -98,16 +98,23 @@
                               class="btn btn-info btn-sm">Nilai</a> --}}
                            </td>
                         </tr>
+
                         @endforeach
-
                         @php
-                        $jumlahData = count($nilai->unique('subject_id'))
+                        // dd($semester_id);
+                        $ss = \App\Grade::where('class_student_id',$student->id)->where('semester_id',
+                        $semester_id)->get();
+                        $jm = count($ss);
+                        // dd($jm);
                         @endphp
-
+                        @php
+                        $jumlahData = count($nilai->unique('subject_id'));
+                        @endphp
                         <tr>
                            <td colspan="6" class="text-center text-bold">Rata-rata</td>
                            <td>
-                              {{ $sum / $jumlahData }}
+                              {{ round($sum / $jm, 2) }}
+                              {{-- {{ $sum / $jumlahData }} --}}
                            </td>
                         </tr>
                      </tbody>

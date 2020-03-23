@@ -52,10 +52,11 @@ class GradesController extends Controller
             $students = DB::table('class_students')->where('class_room_id', $class_id)
                 ->join('students', 'students.id', '=', 'class_students.student_id')
                 ->select('students.nama', 'class_students.*')
-                ->whereNotExists(function ($query) use ($id) {
+                ->whereNotExists(function ($query) use ($id, $semester_id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
                         ->whereRaw('grades.class_learn_id =' . $id)
+                        ->whereRaw('grades.semester_id =' . $semester_id)
                         ->whereRaw('grades.class_student_id = class_students.id');
                 })
                 ->get();
@@ -82,6 +83,14 @@ class GradesController extends Controller
         // echo "Model: " . $result_explode[0] . "<br />";
         // echo "Colour: " . $result_explode[1] . "<br />";
         // dd($result_explode[0]);
+        $request->validate(
+            [
+                'nilai_tugas_1[]' => 'required',
+            ],
+            [
+                'required' => 'field ini wajib diisi',
+            ]
+        );
 
         foreach ($request->class_student_id as $key => $value) {
             // dd($value);

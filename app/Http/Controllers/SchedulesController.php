@@ -11,10 +11,11 @@ class SchedulesController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-        $classStudents = \App\ClassStudent::all();
+        // $classStudents = \App\ClassStudent::all();
+        $classStudents = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
 
-        $schedule = Schedule::where('class_student_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
+        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
         return view('jadwal.index', compact('classStudents', 'semesters', 'schedule'));
     }
 
@@ -54,14 +55,14 @@ class SchedulesController extends Controller
         $teacher = Schedule::where('hari', $request->hari)->where('jam_mulai', $request->jam_mulai)->where('teacher_id', $request->teacher_id)->first();
 
         if ($schedule != null) {
-            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Data jadwal sudah ada!')->withInput();
+            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Data jadwal sudah ada!')->withInput();
         } else if ($teacher != null) {
-            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Jadwal guru bentrok!')->withInput();
+            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Jadwal guru bentrok!')->withInput();
         } else if ($request->jam_mulai == $request->jam_selesai) {
-            return redirect('schedules/' . $request->class_student_id . '/create')->with('error', 'Jam mulai & jam selesai tidak boleh sama!')->withInput();
+            return redirect('schedules/' . $request->class_room_id . '/create')->with('error', 'Jam mulai & jam selesai tidak boleh sama!')->withInput();
         } else {
             Schedule::create($request->all());
-            return redirect('schedules?kelas=' . $request->class_student_id . '&semester=' . $request->semester_id . '')->with('status', 'Data jadwal berhasil ditambah!');
+            return redirect('schedules?kelas=' . $request->class_room_id . '&semester=' . $request->semester_id . '')->with('status', 'Data jadwal berhasil ditambah!');
         }
     }
 
