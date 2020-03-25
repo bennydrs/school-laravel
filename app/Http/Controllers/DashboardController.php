@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Grade;
 use App\Information;
+use App\Student;
+use App\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +14,12 @@ class DashboardController extends Controller
     // Admin
     public function index()
     {
-        return view('user.admin.dashboard');
+        $lakiLaki = Student::where('jenis_kelamin', 'Laki-laki')->count();
+        $perempuan = Student::where('jenis_kelamin', 'Perempuan')->count();
+        $guruLakiLaki = Teacher::where('jenis_kelamin', 'Laki-laki')->count();
+        $guruPerempuan = Teacher::where('jenis_kelamin', 'Perempuan')->count();
+
+        return view('user.admin.dashboard', compact('lakiLaki', 'perempuan', 'guruLakiLaki', 'guruPerempuan'));
     }
     //end admin
 
@@ -22,7 +29,7 @@ class DashboardController extends Controller
         $informations = Information::all()->take(3);
         $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
 
-        $sum = 0;
+        // $sum = 0;
         // $nilai = DB::table('class_learns')
         //     ->leftJoin('subjects', 'subjects.id', '=', 'class_learns.subject_id')
         //     ->select('class_learns.*', 'grades.*', 'subjects.nama')
