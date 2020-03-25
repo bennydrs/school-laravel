@@ -25,8 +25,8 @@
                <div class="form-row">
                   <div class="form-group col-md-6">
                      <label for="nama">Nama</label>
-                     <input id="nama" class="form-control" type="text" name="nama" value="{{ $grade->student->nama }}"
-                        readonly>
+                     <input id="nama" class="form-control" type="text" name="nama"
+                        value="{{ $grade->classStudent->student->nama }}" readonly>
                   </div>
 
                   <div class="form-group col-md-6">

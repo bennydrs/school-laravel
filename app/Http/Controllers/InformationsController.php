@@ -101,12 +101,12 @@ class InformationsController extends Controller
                 return str_limit($k->konten, 50);
             })
             ->addColumn('publish', function ($ak) {
-                return ($ak->publish == 0) ?  'publish'  : 'tidak publish!';
+                return ($ak->publish == 1) ?  'publish'  : 'tidak publish!';
             })
             ->addColumn('aksi', function ($info) {
-                // if ($info->user_id == auth()->user()->id) {
-                //     return '<a href="/informations/' . $info->id . '/edit" class="btn btn-warning btn-sm">edit</a>';
-                // }
+                if ($info->user_id != auth()->user()->id) {
+                    return '<a href="/informations/' . $info->id . '" class="btn btn-info btn-sm">lihat</a> <a href="/informations/' . $info->id . '/edit" class="btn btn-warning btn-sm">edit</a>';
+                }
                 return '
                 <a href="/informations/' . $info->id . '" class="btn btn-info btn-sm">lihat</a> 
                 <a href="/informations/' . $info->id . '/edit" class="btn btn-warning btn-sm">edit</a>

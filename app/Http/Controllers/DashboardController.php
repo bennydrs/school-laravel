@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Grade;
 use App\Information;
 use App\Student;
 use App\Teacher;

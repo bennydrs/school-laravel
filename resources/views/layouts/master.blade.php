@@ -40,25 +40,13 @@
             <li class="nav-item">
                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            {{-- <li class="nav-item d-none d-sm-inline-block">
                <a href="../../index3.html" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                <a href="#" class="nav-link">Contact</a>
-            </li>
+            </li> --}}
          </ul>
-
-         <!-- SEARCH FORM -->
-         {{-- <form class="form-inline ml-3">
-            <div class="input-group input-group-sm">
-               <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-               <div class="input-group-append">
-                  <button class="btn btn-navbar" type="submit">
-                     <i class="fas fa-search"></i>
-                  </button>
-               </div>
-            </div>
-         </form> --}}
 
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
@@ -350,12 +338,12 @@
                   <div class="col-sm-6">
                      <h1>@yield('header')</h1>
                   </div>
-                  <div class="col-sm-6">
+                  {{-- <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                         <li class="breadcrumb-item active">@yield('header')</li>
                      </ol>
-                  </div>
+                  </div> --}}
                </div>
             </div><!-- /.container-fluid -->
          </section>

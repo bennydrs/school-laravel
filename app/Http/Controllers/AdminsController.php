@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Admin;
 use Illuminate\Http\Request;
 
-
 class AdminsController extends Controller
 {
     /**
@@ -133,6 +132,10 @@ class AdminsController extends Controller
         return \DataTables::eloquent($admins)
             ->addIndexColumn()
             ->addColumn('aksi', function ($ad) {
+                if ($ad->user_id != auth()->user()->id) {
+                    return '<a href="/admins/' . $ad->id . '" class="btn btn-info btn-sm">detail</a>
+                    <a href="/admins/' . $ad->id . '/edit" class="btn btn-warning btn-sm">edit</a>';
+                }
                 return '<a href="/admins/' . $ad->id . '" class="btn btn-info btn-sm">detail</a>
                 <a href="/admins/' . $ad->id . '/edit" class="btn btn-warning btn-sm">edit</a> 
                 <form action="/admins/' . $ad->id . '" method="post" class="d-inline delete">   

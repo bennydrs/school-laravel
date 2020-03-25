@@ -6,7 +6,7 @@
 @section('content')
 
 <div class="row">
-   <div class="col-md-6">
+   <div class="col-md-8">
       <a href="subjects/create" class="btn btn-primary mb-3 coba">Tambah Mata Pelajaran</a>
       <div class="card">
          <div class="card-header">
