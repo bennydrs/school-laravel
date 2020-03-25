@@ -120,7 +120,8 @@
                <label for="exampleInputFile">Foto</label>
                <div class="input-group">
                   <div class="custom-file">
-                     <input type="file" class="custom-file-input" name="foto" id="customFile">
+                     <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto"
+                        id="customFile">
                      <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
                   </div>
                </div>

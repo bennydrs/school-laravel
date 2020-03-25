@@ -8,6 +8,7 @@ use App\Student;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class StudentsController extends Controller
 {
@@ -52,6 +53,7 @@ class StudentsController extends Controller
                 'jenis_kelamin' => 'required',
                 'agama' => 'required',
                 'alamat' => 'required',
+                'foto' => 'mimes:jpeg,png,jpg',
             ],
             [
                 'required' => ':attribute wajib diisi',
@@ -92,7 +94,10 @@ class StudentsController extends Controller
     public function show(Student $student)
     {
         // $classLearn = \App\ClassLearn::where('class_room_id', '=', $student->class_room_id)->get();
-        $grades = \App\Grade::where('student_id', '=', $student->id)->get();
+        // $grades = \App\Grade::where('student_id', '=', $student->id)->get();
+        $classStudent = \App\ClassStudent::where('student_id', $student->id)->first();
+        // dd($classStudent->id);
+        $grades = \App\Grade::where('class_student_id', $classStudent->id)->get();
         return view('siswa.profil', compact('student', 'grades'));
     }
 
@@ -116,6 +121,7 @@ class StudentsController extends Controller
      */
     public function update(Request $request, Student $student)
     {
+        // dd($request->foto);
         $request->validate(
             [
                 'nama' => 'required',
@@ -124,22 +130,31 @@ class StudentsController extends Controller
                 'jenis_kelamin' => 'required',
                 'agama' => 'required',
                 'alamat' => 'required',
+                'foto' => 'mimes:jpeg,png,jpg',
             ],
             [
                 'required' => ':attribute wajib diisi',
                 'min' => ':attribute minimal :min karakter',
                 'unique' => ':attribute sudah terdaftar',
-                'email' => ':attribute yang diisi bukan email'
+                'email' => ':attribute yang diisi bukan email',
+                'mimes' => ':attribute bukan file gambar'
             ]
         );
 
-        $student = Student::findOrFail($student)->first();
-        $student->update($request->all());
+        $students = Student::find($student->id);
         if ($request->hasFile('foto')) {
+            // dd($student->foto);
+            File::delete('img/' . $student->foto);
             $request->file('foto')->move('img/', $request->file('foto')->getClientOriginalName());
-            $student->foto = $request->file('foto')->getClientOriginalName();
-            $student->save();
+            $students->foto = $request->file('foto')->getClientOriginalName();
         }
+        $students->nis = $request->nis;
+        $students->nama = $request->nama;
+        $students->tempat_lahir = $request->tempat_lahir;
+        $students->jenis_kelamin = $request->jenis_kelamin;
+        $students->agama = $request->agama;
+        $students->alamat = $request->alamat;
+        $students->save();
         return redirect('/students')->with('status', 'Data berhasil diubah');
     }
 
@@ -151,6 +166,7 @@ class StudentsController extends Controller
      */
     public function destroy(Student $student)
     {
+        File::delete('img/' . $student->foto);
         \App\User::destroy($student->user_id);
         Student::destroy($student->id);
         return redirect('/students')->with('status', 'Data berhasil dihapus');

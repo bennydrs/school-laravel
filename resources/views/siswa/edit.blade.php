@@ -27,6 +27,7 @@
                   <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" id="nama"
                      value="{{ $student->nama }}">
                   @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                </div>
 
                {{-- <div class="form-group">
@@ -89,16 +90,19 @@
                   <textarea name="alamat" class="form-control  @error('alamat') is-invalid @enderror" id="alamat"
                      placeholder="Masukkan alamat">{{ $student->alamat }}</textarea>
                   @error('alamat') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                </div>
 
                <div class="form-group">
                   <label for="exampleInputFile">Foto</label>
                   <div class="input-group">
                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="foto" id="customFile">
+                        <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto"
+                           id="customFile">
                         <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
                      </div>
                   </div>
+                  @error('foto') <div class="invalid-feedback">{{ $message }}</div> @enderror
                </div>
 
             </div>
