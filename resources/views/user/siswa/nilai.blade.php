@@ -45,55 +45,122 @@
          <div class="card-header">
             <div class="card-title">
                Data Nilai Kelas
-               {{-- {{$grades[0]->classLearn->semester->tahun_ajaran .' | '. $grades[0]->classLearn->semester->semester   }}
-               --}}
+               {{-- {{$grades[0]->classStudent->classRoom->nama}} Semester
+               {{$grades[0]->semester->tahun_ajaran .' | '. $grades[0]->semester->semester   }} --}}
+
 
             </div>
          </div>
 
          <div class="card-body">
+            <a href="/student/export-nilai-siswa/{{$_GET['kelas']}}/{{$_GET['semester']}}"
+               class="btn btn-primary btn-sm mb-3">Export PDF</a>
 
-            <a href="" class="btn btn-primary btn-sm mb-3">Export PDF</a>
-
-            @if($grades->isNotEmpty())
+            {{-- @if($grades->isNotEmpty()) --}}
             <table class="table" id="datatable">
                <thead>
                   <tr>
                      <th>No</th>
-                     <th>Nama</th>
                      <th>Mata Pelajaran</th>
                      <th>Nilai Tugas 1</th>
-                     <th>Nilai Tugas 1</th>
+                     <th>Nilai Tugas 2</th>
                      <th>Nilai UTS</th>
                      <th>Nilai UAS</th>
-                     <th>Guru</th>
-                     <th>Semester</th>
+                     <th>Nilai Rata2</th>
+                     {{-- <th>Guru</th> --}}
                   </tr>
                </thead>
-               <tbody>
+               {{-- <tbody>
 
                   @foreach ($grades as $grade)
                   <tr>
                      <td>{{ $loop->iteration }}</td>
-                     <td>{{ $grade->classStudent->student->nama }}</td>
-                     <td>{{ $grade->classLearn->subject->nama }}</td>
-                     <td>{{ $grade->nilai_tugas_1 }}</td>
-                     <td>{{ $grade->nilai_tugas_2 }}</td>
-                     <td>{{ $grade->nilai_uts }}</td>
-                     <td>{{ $grade->nilai_uas }}</td>
-                     <td>{{ $grade->teacher->nama }}</td>
-                     <td>{{ $grade->semester->semester }}</td>
-                  </tr>
-                  @endforeach
+               <td>{{ $grade->classStudent->student->nama }}</td>
+               <td>{{ $grade->classLearn->subject->nama }}</td>
+               <td>{{ $grade->nilai_tugas_1 }}</td>
+               <td>{{ $grade->nilai_tugas_2 }}</td>
+               <td>{{ $grade->nilai_uts }}</td>
+               <td>{{ $grade->nilai_uas }}</td>
+               <td>{{ $grade->teacher->nama }}</td>
+               <td>{{ $grade->semester->semester }}</td>
+               </tr>
+               @endforeach
 
+               </tbody> --}}
+
+               <tbody>
+                  @php
+                  $sum = 0;
+                  @endphp
+                  @foreach ($nilai->unique('subject_id') as $grade)
+                  @php
+                  $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
+                  $rata2tugas = $jmltugas / 2;
+
+                  $tugas = $rata2tugas * 0.25;
+                  $uts = $grade->nilai_uts * 0.35;
+                  $uas = $grade->nilai_uas * 0.40;
+                  $rata2 = $tugas + $uts + $uas;
+
+                  $sum += $rata2
+                  @endphp
+                  <tr>
+                     <td>{{ $loop->iteration }}</td>
+                     <td>
+                        {{ isset($grade->nama) ? ucfirst($grade->nama) :
+                        'no name!' }}
+                     </td>
+                     <td>
+                        {{ isset( $grade->nilai_tugas_1) ?  ucfirst($grade->nilai_tugas_1)  : '-' }}
+                     </td>
+                     <td>
+                        {{ isset($grade->nilai_tugas_2) ?  ucfirst($grade->nilai_tugas_2)  : '-' }}
+                     </td>
+                     <td>
+                        {{ isset($grade->nilai_uts) ?  ucfirst($grade->nilai_uts)  : '-' }}
+                     </td>
+                     <td>
+                        {{ isset($grade->nilai_uas) ?  ucfirst($grade->nilai_uas)  : '-' }}
+                     </td>
+                     <td>
+                        {{ (round($rata2,2)) ? (round($rata2,2))  : '-' }}
+                     </td>
+                     <td>
+
+                        {{-- <a href="/teacher/homeroom-teacher/grades/{{ $grade->id }}"
+                        class="btn btn-info btn-sm">Nilai</a> --}}
+                     </td>
+                  </tr>
+
+                  @endforeach
+                  @php
+                  // dd($semester_id);
+                  $ss = \App\Grade::where('class_student_id',$student->id)->where('semester_id',
+                  $_GET['semester'])->get();
+
+                  $jm = count($ss);
+                  // dd($jm);
+                  @endphp
+                  @php
+                  $jumlahData = count($nilai->unique('subject_id'));
+                  @endphp
+                  @if($ss->isNotEmpty())
+                  <tr>
+                     <td colspan="6" class="text-center text-bold">Rata-rata</td>
+                     <td>
+                        {{ (round($sum / $jm, 2)) ? (round($sum / $jm, 2))  : '-'  }}
+                        {{-- {{ $sum / $jumlahData }} --}}
+                     </td>
+                  </tr>
+                  @endif
                </tbody>
             </table>
 
-            @else
+            {{-- @else
             <div class="alert alert-danger">
                Data nilai tidak ada
             </div>
-            @endif
+            @endif --}}
 
             @else
             <div class="alert alert-info">

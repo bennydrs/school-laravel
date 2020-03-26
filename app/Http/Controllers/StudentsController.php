@@ -273,18 +273,42 @@ class StudentsController extends Controller
         // dd(auth()->user()->student->id);
         $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
         $semesters = \App\Semester::all();
-        $schedules = \App\Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+        $schedules = \App\Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
         return view('user.siswa.jadwal', compact('schedules', 'classes', 'semesters'));
     }
 
     public function gradesStudent(Request $request)
     {
+        $student = \App\ClassStudent::find($request->kelas);
         $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
         // dd($classes);
         $semesters = \App\Semester::all();
-        // $id = auth()->user()->student->id;
+        $class_student_id = $request->kelas;
+        $semester_id = $request->semester;
+        // $class_room_id = $student->class_room_id;
 
-        $grades = \App\Grade::where('class_student_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
-        return view('user.siswa.nilai', compact('classes', 'semesters', 'grades'));
+        $nilai = DB::table('class_learns')
+            ->leftJoin('subjects', 'subjects.id', '=', 'class_learns.subject_id')
+            ->select('class_learns.*', 'grades.*', 'grades.class_learn_id', 'subjects.nama')
+            ->leftJoin('grades', function ($leftJoin) use ($class_student_id, $semester_id) {
+                $leftJoin->on('grades.class_learn_id', '=', 'class_learns.id');
+                // $leftJoin->where('grades.class_room_id', '=', $class_room_id);
+                $leftJoin->where('grades.semester_id', '=', $semester_id);
+                $leftJoin->where('grades.class_student_id', '=', $class_student_id);
+            })->get();
+        // dd($nilai);
+
+        return view('user.siswa.nilai', compact('classes', 'nilai', 'semesters', 'student'));
     }
+
+    // public function gradesStudent(Request $request)
+    // {
+    //     $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
+    //     // dd($classes);
+    //     $semesters = \App\Semester::all();
+    //     // $id = auth()->user()->student->id;
+
+    //     $grades = \App\Grade::where('class_student_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+    //     return view('user.siswa.nilai', compact('classes', 'semesters', 'grades'));
+    // }
 }

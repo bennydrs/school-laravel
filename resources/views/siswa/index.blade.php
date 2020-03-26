@@ -7,7 +7,8 @@
 
 <div class="row">
    <div class="col-md-12">
-      <a href="students/create" class="btn btn-primary mb-3 coba load">Tambah Siswa</a>
+      <a href="/students/create" class="btn btn-primary mb-3 coba load">Tambah Siswa</a>
+      <a href="/export-siswa-pdf" class="btn btn-primary mb-3">Export PDF</a>
       <div class="card">
          <div class="card-header">
             <div class="card-title">

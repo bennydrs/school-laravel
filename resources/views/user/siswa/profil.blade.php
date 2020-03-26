@@ -20,13 +20,13 @@
 
             <p class="text-muted text-center">{{ $student->nis }} </p>
 
-            <ul class="list-group list-group-unbordered mb-3">
+            {{-- <ul class="list-group list-group-unbordered mb-3">
                <li class="list-group-item">
                   <b>Mata Pelajaran</b> <a
                      class="float-right">{{ !empty($classLearn) ? $classLearn->count() : '0' }}</a>
-               </li>
+            </li>
 
-            </ul>
+            </ul> --}}
          </div>
          <!-- /.card-body -->
       </div>

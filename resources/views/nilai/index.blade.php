@@ -44,7 +44,8 @@
       <div class="card">
          <div class="card-header">
             <div class="card-title">
-               Data Nilai Kelas
+               Data Nilai Kelas {{$grades[0]->classStudent->classRoom->nama}} Semester
+               {{$grades[0]->semester->tahun_ajaran .' | '. $grades[0]->semester->semester }}
                {{-- {{$grades[0]->classLearn->semester->tahun_ajaran .' | '. $grades[0]->classLearn->semester->semester   }}
                --}}
 
@@ -55,6 +56,8 @@
 
             <a href="/grades/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/create"
                class="btn btn-primary btn-sm mb-3">Tambah Nilai</a>
+            <a href="export-nilai/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}" class="btn btn-info btn-sm mb-3">Export
+               PDF</a>
 
             @if($grades->isNotEmpty())
             <table class="table" id="datatable">
@@ -64,17 +67,26 @@
                      <th>Nama</th>
                      <th>Mata Pelajaran</th>
                      <th>Nilai Tugas 1</th>
-                     <th>Nilai Tugas 1</th>
+                     <th>Nilai Tugas 2</th>
                      <th>Nilai UTS</th>
                      <th>Nilai UAS</th>
                      {{-- <th>Guru</th> --}}
-                     <th>Semester</th>
+                     <th>Rata2</th>
                      <th>Aksi</th>
                   </tr>
                </thead>
                <tbody>
 
                   @foreach ($grades as $grade)
+                  @php
+                  $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
+                  $rata2tugas = $jmltugas / 2;
+
+                  $tugas = $rata2tugas * 0.25;
+                  $uts = $grade->nilai_uts * 0.35;
+                  $uas = $grade->nilai_uas * 0.40;
+                  $rata2 = $tugas + $uts + $uas;
+                  @endphp
                   <tr>
                      <td>{{ $loop->iteration }}</td>
                      <td>{{ $grade->classStudent->student->nama }}</td>
@@ -84,7 +96,7 @@
                      <td>{{ $grade->nilai_uts }}</td>
                      <td>{{ $grade->nilai_uas }}</td>
                      {{-- <td>{{ $grade->schedule->teacher->nama }}</td> --}}
-                     <td>{{ $grade->semester->semester }}</td>
+                     <td>{{ round($rata2, 2) }}</td>
                      <td>
                         <a href="/grades/{{ $grade->id }}/edit" class="btn btn-warning btn-sm">edit</a>
                         {{-- <form action="/grades/{{ $grade->id }}" method="post" class="d-inline delete">

@@ -23,6 +23,11 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tempat_tanggal_lahir()
+    {
+        return $this->tempat_lahir . ', ' . $this->tanggal_lahir->format('d M Y');
+    }
+
     public function classRoom()
     {
         return $this->belongsTo(ClassRoom::class);

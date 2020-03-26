@@ -56,8 +56,8 @@
 
          <div class="card-body">
 
-            <a href="/schedules/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}/export"
-               class="btn btn-info btn-sm mb-3">Export PDF</a>
+            <a href="export-jadwal/{{ $_GET['kelas'] }}/{{ $_GET['semester'] }}" class="btn btn-info btn-sm mb-3">Export
+               PDF</a>
 
             <table class="table" id="datatable">
                <thead>

@@ -112,6 +112,13 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::delete('informations/{information}', 'InformationsController@destroy');
     Route::get('informations/{information}', 'InformationsController@show');
 
+    //export
+    Route::get('export-siswa-pdf', 'ExportsController@exportSiswaPDF');
+    Route::get('export-jadwal/{kelas}/{semester}', 'ExportsController@exportJadwalPDF');
+    Route::get('export-nilai/{kelas}/{semester}', 'ExportsController@exportNilaiPDF');
+
+    //end
+
 
     //ajax
     // get data student untuk datatable serverside
@@ -173,6 +180,9 @@ Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'
     Route::get('/profile', 'StudentsController@profileStudent');
     Route::get('/schedules', 'StudentsController@schedulesStudent');
     Route::get('/grades', 'StudentsController@gradesStudent');
+
+    Route::get('export-nilai-siswa/{kelas}/{semester}', 'ExportsController@exportNilaiSiswaPDF');
+    Route::get('export-jadwal/{kelas}/{semester}', 'ExportsController@exportJadwalPDF');
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {
