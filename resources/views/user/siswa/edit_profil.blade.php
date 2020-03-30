@@ -25,7 +25,7 @@
                <div class="form-group">
                   <label for="nama">Nama</label>
                   <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" id="nama"
-                     value="{{ $student->nama }}">
+                     value="{{ $student->nama }}" readonly>
                   @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
                </div>

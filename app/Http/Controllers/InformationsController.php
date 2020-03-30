@@ -36,6 +36,16 @@ class InformationsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'judul' => 'required',
+                'konten' => 'required',
+            ],
+            [
+                'required' => ':attribute wajib diisi',
+            ]
+        );
+
         Information::create($request->all());
         return redirect('/informations')->with('status', 'Data information berhasil ditambah!');
     }
@@ -73,6 +83,16 @@ class InformationsController extends Controller
      */
     public function update(Request $request, Information $information)
     {
+        $request->validate(
+            [
+                'judul' => 'required',
+                'konten' => 'required',
+            ],
+            [
+                'required' => ':attribute wajib diisi',
+            ]
+        );
+
         $information = Information::find($information->id);
         $information->update($request->all());
         $information->save();

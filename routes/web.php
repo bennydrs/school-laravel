@@ -210,5 +210,9 @@ Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher']
     Route::get('/homeroom-teacher', 'TeachersController@indexHomeroomTeacher');
     Route::get('/homeroom-teacher/class/{class_id}/semester/{semester_id}', 'TeachersController@showStudentHomeroomTeacher');
     Route::get('/homeroom-teacher/grades/class-student/{class_student_id}/semester/{semester_id}', 'TeachersController@showGradeHomeroomTeacher');
+    Route::get('/edit-profile', 'TeachersController@editTeacher');
+    Route::put('/edit/{teacher}', 'TeachersController@updateTeacher');
+    Route::get('/changePassword', 'AuthController@showChangePasswordForm');
+    Route::post('/changePassword', 'AuthController@changePassword')->name('changePassword');
 });
 // end guru

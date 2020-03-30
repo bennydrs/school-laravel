@@ -103,6 +103,26 @@ class AdminsController extends Controller
      */
     public function update(Request $request, Admin $admin)
     {
+        $request->validate(
+            [
+                'nip' => 'required|unique:admins',
+                'nama' => 'required',
+                'email' => 'required|unique:users|email',
+                'tempat_lahir' => 'required',
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'agama' => 'required',
+                'telp' => 'required',
+                'alamat' => 'required',
+            ],
+            [
+                'required' => ':attribute wajib diisi',
+                'min' => ':attribute minimal :min karakter',
+                'unique' => ':attribute sudah terdaftar',
+                'email' => ':attribute yang diisi bukan email'
+            ]
+        );
+
         $admin = Admin::find($admin->id);
         $admin->update($request->all());
         $admin->save();

@@ -7,6 +7,7 @@ use App\Teacher;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class TeachersController extends Controller
 {
@@ -131,13 +132,22 @@ class TeachersController extends Controller
             ]
         );
 
-        $teacher = Teacher::findOrFail($teacher)->first();
-        $teacher->update($request->all());
+        $teachers = Teacher::find($teacher->id);
         if ($request->hasFile('foto')) {
+            // dd($student->foto);
+            File::delete('img/' . $teacher->foto);
             $request->file('foto')->move('img/guru/', $request->file('foto')->getClientOriginalName());
-            $teacher->foto = $request->file('foto')->getClientOriginalName();
-            $teacher->save();
+            $teachers->foto = $request->file('foto')->getClientOriginalName();
         }
+        $teachers->nrg = $request->nrg;
+        $teachers->nama = $request->nama;
+        $teachers->tempat_lahir = $request->tempat_lahir;
+        $teachers->tanggal_lahir = $request->tanggal_lahir;
+        $teachers->jenis_kelamin = $request->jenis_kelamin;
+        $teachers->telp = $request->telp;
+        $teachers->agama = $request->agama;
+        $teachers->alamat = $request->alamat;
+        $teachers->save();
         return redirect('/teachers')->with('status', 'Data guru berhasil diubah');
     }
 
@@ -176,7 +186,6 @@ class TeachersController extends Controller
 
     public function profileTeacher()
     {
-        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
         $teacher = Teacher::find(auth()->user()->teacher->id);
         return view('user.guru.profil', compact('teacher'));
     }
@@ -252,9 +261,6 @@ class TeachersController extends Controller
         $semesters = \App\Semester::all();
 
         $homeroomTeachers = HomeroomTeacher::where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
-        // $classStudentId = \App\ClassStudent::where('class_room_id', '=', $homeroomTeachers->class_room_id)->get();
-        // dd($classStudentId);
-        // $students = \App\ClassStudent::where('semester_id', $request->semester)->where('class_room_id', '=', $request->kelas)->get();
         return view('user.guru.wali_kelas.index', compact('semesters', 'homeroomTeachers'));
     }
 
@@ -299,5 +305,36 @@ class TeachersController extends Controller
         // dd($nilai);
 
         return view('user.guru.wali_kelas.show_grade', compact('student', 'nilai', 'class_room_id', 'semester_id'));
+    }
+
+    public function editTeacher()
+    {
+        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $teacher = Teacher::find(auth()->user()->teacher->id);
+        return view('user.guru.edit_profil', compact('teacher'));
+    }
+
+    public function updateTeacher(Request $request, Teacher $teacher)
+    {
+        $request->validate(
+            [
+                'nama' => 'required',
+                'tempat_lahir' => 'required',
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'agama' => 'required',
+                'alamat' => 'required',
+            ],
+            [
+                'required' => ':attribute wajib diisi',
+                'min' => ':attribute minimal :min karakter',
+                'unique' => ':attribute sudah terdaftar',
+                'email' => ':attribute yang diisi bukan email'
+            ]
+        );
+
+        $teacher = Teacher::findOrFail($teacher)->first();
+        $teacher->update($request->all());
+        return redirect('/teacher/profile')->with('status', 'Data guru berhasil diubah');
     }
 }

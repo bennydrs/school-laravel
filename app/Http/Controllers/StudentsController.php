@@ -151,6 +151,7 @@ class StudentsController extends Controller
         $students->nis = $request->nis;
         $students->nama = $request->nama;
         $students->tempat_lahir = $request->tempat_lahir;
+        $students->tanggal_lahir = $request->tanggal_lahir;
         $students->jenis_kelamin = $request->jenis_kelamin;
         $students->agama = $request->agama;
         $students->alamat = $request->alamat;
