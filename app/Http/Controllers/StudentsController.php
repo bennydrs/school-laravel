@@ -268,6 +268,45 @@ class StudentsController extends Controller
         return view('user.siswa.profil', compact('student'));
     }
 
+    public function editStudent()
+    {
+        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $student = Student::find(auth()->user()->student->id);
+        return view('user.siswa.edit_profil', compact('student'));
+    }
+
+    public function updateStudent(Request $request, Student $student)
+    {
+        $request->validate(
+            [
+                'nama' => 'required',
+                'tempat_lahir' => 'required',
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'agama' => 'required',
+                'alamat' => 'required',
+                'foto' => 'mimes:jpeg,png,jpg',
+            ],
+            [
+                'required' => ':attribute wajib diisi',
+                'min' => ':attribute minimal :min karakter',
+                'unique' => ':attribute sudah terdaftar',
+                'email' => ':attribute yang diisi bukan email',
+                'mimes' => ':attribute bukan file gambar'
+            ]
+        );
+
+        $students = Student::find($student->id);
+        $students->nis = $request->nis;
+        $students->nama = $request->nama;
+        $students->tempat_lahir = $request->tempat_lahir;
+        $students->jenis_kelamin = $request->jenis_kelamin;
+        $students->agama = $request->agama;
+        $students->alamat = $request->alamat;
+        $students->save();
+        return redirect('/student/profile')->with('status', 'Data berhasil diubah');
+    }
+
     public function schedulesStudent(Request $request)
     {
         // dd(auth()->user()->student->id);

@@ -98,11 +98,11 @@
                <div class="info">
                   <a href="
                         @if(auth()->user()->role == 'siswa')
-                        /students/{{ auth()->user()->student->id }}
+                        /student/profile
                         @elseif(auth()->user()->role == 'admin')
-                        /admins/{{ auth()->user()->admin->id }}
+                        /admin
                         @else
-                        /teahers/{{ auth()->user()->teacher->id }}
+                        /teacher/profile
                         @endif" class="d-block">{{ auth()->user()->name }}
                   </a>
                </div>

@@ -85,6 +85,13 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::delete('admins/{admin}', 'AdminsController@destroy');
     Route::get('admins/{admin}', 'AdminsController@show');
 
+    //akun admin
+    Route::get('admin', 'AdminsController@profileAdmin');
+    Route::get('admin/edit', 'AdminsController@editAdmin');
+    Route::get('/changePassword', 'AuthController@showChangePasswordForm');
+    Route::post('/changePassword', 'AuthController@changePassword')->name('changePassword');
+    //end akun admin
+
     Route::get('/schedules', 'SchedulesController@index');
     Route::get('schedules/{class_id}/{semester_id}/create', 'SchedulesController@create');
     Route::post('schedules', 'SchedulesController@store');
@@ -174,17 +181,24 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     //end ajax
 });
 
+// Siswa
 Route::group(['middleware' => ['auth', 'checkRole:siswa'], 'prefix' => 'student'], function () {
     Route::get('/dashboard', 'DashboardController@student');
     Route::get('/dashboard/information/{information_id}', 'DashboardController@showInformation');
     Route::get('/profile', 'StudentsController@profileStudent');
     Route::get('/schedules', 'StudentsController@schedulesStudent');
     Route::get('/grades', 'StudentsController@gradesStudent');
+    Route::get('/changePassword', 'AuthController@showChangePasswordForm');
+    Route::post('/changePassword', 'AuthController@changePassword')->name('changePassword');
+    Route::get('/edit-profile', 'StudentsController@editStudent');
+    Route::put('/edit/{student}', 'StudentsController@updateStudent');
 
     Route::get('export-nilai-siswa/{kelas}/{semester}', 'ExportsController@exportNilaiSiswaPDF');
     Route::get('export-jadwal/{kelas}/{semester}', 'ExportsController@exportJadwalPDF');
 });
+// end siswa
 
+// Guru
 Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher'], function () {
     Route::get('/dashboard', 'DashboardController@teacher');
     Route::get('/profile', 'TeachersController@profileTeacher');
@@ -197,3 +211,4 @@ Route::group(['middleware' => ['auth', 'checkRole:guru'], 'prefix' => 'teacher']
     Route::get('/homeroom-teacher/class/{class_id}/semester/{semester_id}', 'TeachersController@showStudentHomeroomTeacher');
     Route::get('/homeroom-teacher/grades/class-student/{class_student_id}/semester/{semester_id}', 'TeachersController@showGradeHomeroomTeacher');
 });
+// end guru

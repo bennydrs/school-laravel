@@ -79,7 +79,8 @@
 
             <hr>
 
-            <a href="/student/edit-profile" class="btn btn-success">Edit Profil</a>
+            <a href="/student/edit-profile" class="btn btn-success btn-sm">Edit Profil</a>
+            <a href="/student/changePassword" class="btn btn-warning btn-sm">Ganti Kata Sandi</a>
          </div>
          <!-- /.card-body -->
       </div>

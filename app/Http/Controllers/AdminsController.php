@@ -106,7 +106,7 @@ class AdminsController extends Controller
         $admin = Admin::find($admin->id);
         $admin->update($request->all());
         $admin->save();
-        return redirect('admins')->with('status', 'Data berhasil diubah');
+        return redirect('admin')->with('status', 'Data berhasil diubah');
     }
 
     /**
@@ -134,17 +134,29 @@ class AdminsController extends Controller
             ->addColumn('aksi', function ($ad) {
                 if ($ad->user_id != auth()->user()->id) {
                     return '<a href="/admins/' . $ad->id . '" class="btn btn-info btn-sm">detail</a>
-                    <a href="/admins/' . $ad->id . '/edit" class="btn btn-warning btn-sm">edit</a>';
-                }
-                return '<a href="/admins/' . $ad->id . '" class="btn btn-info btn-sm">detail</a>
-                <a href="/admins/' . $ad->id . '/edit" class="btn btn-warning btn-sm">edit</a> 
-                <form action="/admins/' . $ad->id . '" method="post" class="d-inline delete">   
+                    <form action="/admins/' . $ad->id . '" method="post" class="d-inline delete">   
                     <input type="hidden" name="_token" value="' . csrf_token() . '">
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger delete btn-sm">hapus</button>
                 </form>';
+                }
+                return '<a href="/admins/' . $ad->id . '" class="btn btn-info btn-sm">detail</a>
+                ';
             })
             ->rawColumns(['aksi'])
             ->tojson();
+    }
+
+    public function profileAdmin()
+    {
+        // $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $admin = Admin::find(auth()->user()->admin->id);
+        return view('admin.profil', compact('admin'));
+    }
+
+    public function editAdmin()
+    {
+        $admin = Admin::find(auth()->user()->admin->id);
+        return view('user.admin.edit', compact('admin'));
     }
 }
