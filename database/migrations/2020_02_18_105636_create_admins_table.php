@@ -22,8 +22,8 @@ class CreateAdminsTable extends Migration
             $table->date('tanggal_lahir');
             $table->char('janis_kelamin', 10);
             $table->string('agama', 100);
-            $table->string('foto');
             $table->text('alamat');
+            $table->string('foto');
             $table->timestamps();
         });
     }

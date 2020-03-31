@@ -17,7 +17,6 @@ class CreateStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->char('nis', 5);
             $table->integer('user_id');
-            $table->integer('class_room_id');
             $table->string('nama', 128);
             $table->string('tempat_lahir', 128);
             $table->date('tanggal_lahir');

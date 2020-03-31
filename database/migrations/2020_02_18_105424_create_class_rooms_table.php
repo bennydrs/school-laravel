@@ -17,7 +17,6 @@ class CreateClassRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->char('kode_kelas', 6);
             $table->string('nama');
-            $table->integer('teacher_id');
             $table->timestamps();
         });
     }
