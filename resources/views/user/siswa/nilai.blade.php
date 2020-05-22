@@ -47,8 +47,6 @@
                Data Nilai Kelas
                {{-- {{$grades[0]->classStudent->classRoom->nama}} Semester
                {{$grades[0]->semester->tahun_ajaran .' | '. $grades[0]->semester->semester   }} --}}
-
-
             </div>
          </div>
 

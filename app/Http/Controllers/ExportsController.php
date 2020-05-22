@@ -27,6 +27,17 @@ class ExportsController extends Controller
     public function exportNilaiPDF($kelas, $semester)
     {
         $grades = \App\Grade::where('class_room_id', '=', $kelas)->where('semester_id', '=', $semester)->get();
+        $grades->map(function ($grade) {
+            $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
+            $rata2tugas = $jmltugas / 2;
+
+            $tugas = $rata2tugas * 0.25;
+            $uts = $grade->nilai_uts * 0.35;
+            $uas = $grade->nilai_uas * 0.40;
+            $rata2 = $tugas + $uts + $uas;
+            $grade->rata2 = $rata2;
+            return $grade;
+        });
 
         $pdf = PDF::loadView('export.nilaipdf', compact('grades'));
         return $pdf->download('nilai.pdf');

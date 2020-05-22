@@ -29,15 +29,6 @@
     </thead>
     <tbody>
         @foreach($grades as $grade)
-        @php
-        $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
-        $rata2tugas = $jmltugas / 2;
-
-        $tugas = $rata2tugas * 0.25;
-        $uts = $grade->nilai_uts * 0.35;
-        $uas = $grade->nilai_uas * 0.40;
-        $rata2 = $tugas + $uts + $uas;
-        @endphp
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $grade->classStudent->student->nama }}</td>
@@ -46,7 +37,7 @@
             <td>{{ $grade->nilai_tugas_2 }}</td>
             <td>{{ $grade->nilai_uts }}</td>
             <td>{{ $grade->nilai_uas }}</td>
-            <td>{{ round($rata2, 2) }}</td>
+            <td>{{ round($grade->rata2, 2) }}</td>
         </tr>
         @endforeach
     </tbody>

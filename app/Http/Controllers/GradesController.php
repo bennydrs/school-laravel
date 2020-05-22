@@ -19,7 +19,20 @@ class GradesController extends Controller
         $classes = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
 
-        $grades = Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->get();
+        $grades = Grade::where('class_room_id', $request->kelas)->where('semester_id', $request->semester)->get();
+
+        $grades->map(function ($grade) {
+            $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
+            $rata2tugas = $jmltugas / 2;
+
+            $tugas = $rata2tugas * 0.25;
+            $uts = $grade->nilai_uts * 0.35;
+            $uas = $grade->nilai_uas * 0.40;
+            $rata2 = $tugas + $uts + $uas;
+            $grade->rata2 = $rata2;
+            return $grade;
+        });
+
         return view('nilai.index', compact('classes', 'semesters', 'grades'));
     }
 
@@ -109,16 +122,6 @@ class GradesController extends Controller
         return redirect('grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Grade $grade)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -145,16 +148,5 @@ class GradesController extends Controller
         $grade->update($request->all());
         $grade->save();
         return redirect('grades?kelas=' . $request->class_room_id . '&semester=' . $request->semester_id . '')->with('status', 'Data nilai berhasil diubah!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Grade $grade)
-    {
-        //
     }
 }
