@@ -310,7 +310,6 @@ class StudentsController extends Controller
 
     public function schedulesStudent(Request $request)
     {
-        // dd(auth()->user()->student->id);
         $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
         $semesters = \App\Semester::all();
         $schedules = \App\Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
@@ -362,10 +361,8 @@ class StudentsController extends Controller
             }
         }
 
-        // dd($nilai);
         if ($request->semester) {
             $total = $hitung == 0 ? 0 : ($sum / $hitung);
-            // dd($total);
         } else {
             $total = 0;
         }

@@ -10,12 +10,11 @@ class SchedulesController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->all());
         // $classStudents = \App\ClassStudent::all();
         $classStudents = \App\ClassRoom::all();
         $semesters = \App\Semester::all();
 
-        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
+        $schedule = Schedule::where('class_room_id', '=', $request->kelas)->where('semester_id', $request->semester)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")->get();
         return view('jadwal.index', compact('classStudents', 'semesters', 'schedule'));
     }
 
@@ -24,7 +23,7 @@ class SchedulesController extends Controller
         $semester = \App\Semester::find($semester_id);
         // $class = \App\ClassRoom::find($class_room_id);
         $classStudent = \App\ClassStudent::where('class_room_id', $class_room_id)->first();
-        $classLearns = \App\ClassLearn::where('class_room_id', '=', $class_room_id)->get();
+        $classLearns = \App\ClassLearn::where('class_room_id', $class_room_id)->get();
         return view('jadwal.create', compact('classStudent', 'classLearns', 'semester'));
     }
 

@@ -72,15 +72,15 @@ class ExportsController extends Controller
             return $n;
         });
 
-        $total = 0;
+        $sum = 0;
         $hitung = 0;
         foreach ($nilai->unique('subject_id') as $n) {
-            $total += $n->rata2;
+            $sum += $n->rata2;
             if ($n->rata2 != null) {
                 $hitung++;
             }
         }
-        $total = $total / $hitung;
+        $total = $hitung == 0 ? 0 : ($sum / $hitung);
 
         $pdf = PDF::loadView('export.nilai_siswa_pdf', compact('nilai', 'student', 'semester', 'total'));
         return $pdf->download('nilai-siswa.pdf');

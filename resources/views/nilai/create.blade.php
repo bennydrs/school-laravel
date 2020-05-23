@@ -77,8 +77,6 @@
 
             </div>
 
-            <!-- /.card-body -->
-
             <div class="card-footer">
                <button type="submit" class="btn btn-primary">Tambah Data</button>
                <a href="/grades?kelas={{$class->id}}&semester={{$semester->id}}" class="btn btn-warning">Batal</a>

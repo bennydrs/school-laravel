@@ -193,18 +193,18 @@ class TeachersController extends Controller
     public function schedulesTeacher(Request $request)
     {
         $semesters = \App\Semester::all();
-        $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->where('semester_id', '=', $request->semester)->get();
+        $schedules = \App\Schedule::where('teacher_id', auth()->user()->teacher->id)->where('semester_id', $request->semester)->get();
         // $teacher = Teacher::find(auth()->user()->teacher->id);
         return view('user.guru.jadwal', compact('schedules', 'semesters'));
     }
 
     public function indexGradeTeacher(Request $request)
     {
-        $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $classes = \App\Schedule::where('teacher_id', auth()->user()->teacher->id)->get();
         $semesters = \App\Semester::all();
         $classSelected = \App\ClassRoom::find($request->kelas);
 
-        $grades = \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $grades = \App\Grade::where('class_room_id', $request->kelas)->where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
 
         return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades', 'classSelected'));
     }
@@ -216,7 +216,7 @@ class TeachersController extends Controller
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
 
-        $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $schedule = \App\Schedule::where('class_room_id', $class_id)->where('semester_id', $semester_id)->where('teacher_id', auth()->user()->teacher->id)->get();
 
         if ($request->all()) {
             $students = DB::table('class_students')->where('class_room_id', $class_id)
