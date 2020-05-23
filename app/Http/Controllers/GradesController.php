@@ -58,7 +58,7 @@ class GradesController extends Controller
         //             // ->join('c1', 'c1.b_id', '=', 'grades.id')
         //             ->whereRaw('grades.class_learn_id', '=', $id);
         //     })->get();
-        $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->get();
+        $schedule = \App\Schedule::where('class_room_id', $class_id)->where('semester_id', $semester_id)->get();
         // $teacher = \App\Schedule::where('teacher_id', '=', $request->teacher_id)->first();
 
         if ($request->all()) {

@@ -26,7 +26,7 @@ class ExportsController extends Controller
 
     public function exportNilaiPDF($kelas, $semester)
     {
-        $grades = \App\Grade::where('class_room_id', '=', $kelas)->where('semester_id', '=', $semester)->get();
+        $grades = \App\Grade::where('class_room_id', $kelas)->where('semester_id', $semester)->get();
         $grades->map(function ($grade) {
             $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
             $rata2tugas = $jmltugas / 2;
@@ -58,7 +58,29 @@ class ExportsController extends Controller
                 $leftJoin->where('grades.class_student_id', '=', $kelas);
             })->get();
 
-        $pdf = PDF::loadView('export.nilai_siswa_pdf', compact('nilai', 'student', 'semester'));
+        $nilai->map(function ($n) {
+            $jmltugas = $n->nilai_tugas_1 + $n->nilai_tugas_2;
+            $rata2tugas = $jmltugas / 2;
+
+            $tugas = $rata2tugas * 0.25;
+            $uts = $n->nilai_uts * 0.35;
+            $uas = $n->nilai_uas * 0.40;
+            $rata2 = $tugas + $uts + $uas;
+
+            $n->rata2 = $rata2;
+
+            return $n;
+        });
+
+        $total = 0;
+        $hitung = 0;
+        foreach ($nilai->unique('subject_id') as $n) {
+            $total += $n->rata2;
+            $hitung++;
+        }
+        $total = $total / $hitung;
+
+        $pdf = PDF::loadView('export.nilai_siswa_pdf', compact('nilai', 'student', 'semester', 'total'));
         return $pdf->download('nilai-siswa.pdf');
     }
 }

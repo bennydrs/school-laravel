@@ -321,7 +321,7 @@ class StudentsController extends Controller
     {
         $student = \App\ClassStudent::find($request->kelas);
         $classes = \App\ClassStudent::where('student_id', '=', auth()->user()->student->id)->get();
-        // dd($classes);
+
         $semesters = \App\Semester::all();
         $class_student_id = $request->kelas;
         $semester_id = $request->semester;
@@ -336,9 +336,30 @@ class StudentsController extends Controller
                 $leftJoin->where('grades.semester_id', '=', $semester_id);
                 $leftJoin->where('grades.class_student_id', '=', $class_student_id);
             })->get();
-        // dd($nilai);
 
-        return view('user.siswa.nilai', compact('classes', 'nilai', 'semesters', 'student'));
+        $nilai->map(function ($n) {
+
+            $jmltugas = $n->nilai_tugas_1 + $n->nilai_tugas_2;
+            $rata2tugas = $jmltugas / 2;
+
+            $tugas = $rata2tugas * 0.25;
+            $uts = $n->nilai_uts * 0.35;
+            $uas = $n->nilai_uas * 0.40;
+            $rata2 = $tugas + $uts + $uas;
+
+            $n->rata2 = $rata2;
+
+            return $n;
+        });
+        $total = 0;
+        $hitung = 0;
+        foreach ($nilai->unique('subject_id') as $n) {
+            $total += $n->rata2;
+            $hitung++;
+        }
+        $total = $total / $hitung;
+
+        return view('user.siswa.nilai', compact('classes', 'nilai', 'semesters', 'student', 'total'));
     }
 
     // public function gradesStudent(Request $request)
