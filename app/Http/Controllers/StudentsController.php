@@ -351,13 +351,24 @@ class StudentsController extends Controller
 
             return $n;
         });
-        $total = 0;
+        $sum = 0;
         $hitung = 0;
+
         foreach ($nilai->unique('subject_id') as $n) {
-            $total += $n->rata2;
-            $hitung++;
+            $sum += $n->rata2;
+
+            if ($n->rata2 > 0.0) {
+                $hitung++;
+            }
         }
-        $total = $total / $hitung;
+
+        // dd($nilai);
+        if ($request->semester) {
+            $total = $hitung == 0 ? 0 : ($sum / $hitung);
+            // dd($total);
+        } else {
+            $total = 0;
+        }
 
         return view('user.siswa.nilai', compact('classes', 'nilai', 'semesters', 'student', 'total'));
     }

@@ -221,7 +221,7 @@ class TeachersController extends Controller
         if ($request->all()) {
             $students = DB::table('class_students')->where('class_room_id', $class_id)
                 ->join('students', 'students.id', '=', 'class_students.student_id')
-                ->select('students.nama', 'class_students.*')
+                ->select('students.nama', 'students.id as student_id', 'class_students.*')
                 ->whereNotExists(function ($query) use ($id, $semester_id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
@@ -251,6 +251,7 @@ class TeachersController extends Controller
                 'nilai_tugas_2' => $request->nilai_tugas_2[$key],
                 'nilai_uts' => $request->nilai_uts[$key],
                 'nilai_uas' => $request->nilai_uas[$key],
+                'student_id' => $request->student_id[$key],
             ]);
         }
         return redirect('teacher/grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');

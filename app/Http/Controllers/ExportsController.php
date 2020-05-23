@@ -76,7 +76,9 @@ class ExportsController extends Controller
         $hitung = 0;
         foreach ($nilai->unique('subject_id') as $n) {
             $total += $n->rata2;
-            $hitung++;
+            if ($n->rata2 != null) {
+                $hitung++;
+            }
         }
         $total = $total / $hitung;
 

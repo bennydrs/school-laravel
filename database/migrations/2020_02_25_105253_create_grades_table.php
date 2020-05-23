@@ -18,6 +18,7 @@ class CreateGradesTable extends Migration
             $table->integer('class_learn_id');
             $table->integer('semester_id');
             $table->integer('class_student_id');
+            $table->integer('student_id');
             $table->integer('teacher_id');
             $table->char('nilai_tugas_1', 3);
             $table->char('nilai_tugas_2', 3);

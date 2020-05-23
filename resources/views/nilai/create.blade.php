@@ -59,13 +59,13 @@
                      <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $s->nama }}</td>
-                        <input type="hidden" class="form-control" name="class_room_id[]" value="{{$class->id}}">
-                        <input type="hidden" class="form-control" name="semester_id[]" value="{{$semester->id}}">
-                        <input type="hidden" class="form-control" name="class_student_id[]" value="{{$s->id}}">
-                        <input type="hidden" class="form-control" name="teacher_id[]"
-                           value="{{ $teacher->teacher_id  }}">
+                        <input type="hidden" name="class_room_id[]" value="{{$class->id}}">
+                        <input type="hidden" name="semester_id[]" value="{{$semester->id}}">
+                        <input type="hidden" name="class_student_id[]" value="{{$s->id}}">
+                        <input type="hidden" name="teacher_id[]" value="{{ $teacher->teacher_id  }}">
+                        <input type="hidden" name="student_id[]" value="{{$s->student_id}}">
 
-                        <input type="hidden" class="form-control" name="class_learn_id" value="{{$_GET['subject']}}">
+                        <input type="hidden" name="class_learn_id" value="{{$_GET['subject']}}">
                         <td><input type="number" class="form-control" name="nilai_tugas_1[]"></td>
                         <td><input type="number" class="form-control" name="nilai_tugas_2[]"></td>
                         <td><input type="number" class="form-control" name="nilai_uts[]"></td>

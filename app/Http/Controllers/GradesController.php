@@ -48,23 +48,13 @@ class GradesController extends Controller
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
 
-        // $students = \App\Student::where('class_room_id', $class_id)->get();
-        // $students = \App\Student::where('students.class_room_id', $class_id)
-        //     // ->join('grades', 'grades.student_id', '=', 'students.id')
-        //     ->whereNotExists(function ($query) use ($id) {
-        //         $query->select(DB::raw(1))
-        //             ->from('grades')
-        //             // ->join('grades', 'grades.student_id', '=', 'students.id')
-        //             // ->join('c1', 'c1.b_id', '=', 'grades.id')
-        //             ->whereRaw('grades.class_learn_id', '=', $id);
-        //     })->get();
         $schedule = \App\Schedule::where('class_room_id', $class_id)->where('semester_id', $semester_id)->get();
         // $teacher = \App\Schedule::where('teacher_id', '=', $request->teacher_id)->first();
 
         if ($request->all()) {
             $students = DB::table('class_students')->where('class_room_id', $class_id)
                 ->join('students', 'students.id', '=', 'class_students.student_id')
-                ->select('students.nama', 'class_students.*')
+                ->select('students.nama', 'students.id as student_id', 'class_students.*')
                 ->whereNotExists(function ($query) use ($id, $semester_id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
@@ -73,7 +63,6 @@ class GradesController extends Controller
                         ->whereRaw('grades.class_student_id = class_students.id');
                 })
                 ->get();
-            // dd($students);
 
             return view('nilai.create', compact('class', 'schedule', 'semester', 'students'));
         } else {
@@ -98,7 +87,7 @@ class GradesController extends Controller
         // dd($result_explode[0]);
         $request->validate(
             [
-                'nilai_tugas_1[]' => 'required',
+                'nilai_tugas_1' => 'required',
             ],
             [
                 'required' => 'field ini wajib diisi',
@@ -117,6 +106,7 @@ class GradesController extends Controller
                 'nilai_tugas_2' => $request->nilai_tugas_2[$key],
                 'nilai_uts' => $request->nilai_uts[$key],
                 'nilai_uas' => $request->nilai_uas[$key],
+                'student_id' => $request->student_id[$key],
             ]);
         }
         return redirect('grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');
