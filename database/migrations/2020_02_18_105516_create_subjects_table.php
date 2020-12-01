@@ -16,7 +16,7 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->char('kode_mapel', 6);
-            $table->integer('nama');
+            $table->string('nama');
             $table->timestamps();
         });
     }
