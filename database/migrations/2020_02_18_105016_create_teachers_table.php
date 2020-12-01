@@ -22,6 +22,7 @@ class CreateTeachersTable extends Migration
             $table->string('tempat_lahir', 128);
             $table->date('tanggal_lahir');
             $table->char('jenis_kelamin');
+            $table->string('agama', 100);
             $table->char('telp', 15);
             $table->text('alamat');
             $table->timestamps();
