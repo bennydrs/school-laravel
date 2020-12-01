@@ -20,7 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('nama', 128);
             $table->string('tempat_lahir', 128);
             $table->date('tanggal_lahir');
-            $table->string('janis_kelamin', 10);
+            $table->string('janis_kelamin');
             $table->string('agama', 100);
             $table->string('foto')->nullable();
             $table->text('alamat');
