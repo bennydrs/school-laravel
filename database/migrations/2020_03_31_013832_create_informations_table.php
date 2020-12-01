@@ -17,7 +17,8 @@ class CreateInformationsTable extends Migration
             $table->increments('id');
             $table->string('judul');
             $table->text('konten');
-            $table->integer('user_id')->unsigned();
+            $table->integer('admin_id')->unsigned();
+            $table->foreign('admin_id')->references('id')->on('admins');
             $table->integer('updated_by');
             $table->integer('publish', 1);
             $table->timestamps();
