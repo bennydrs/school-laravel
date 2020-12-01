@@ -17,7 +17,7 @@ class CreateInformationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('judul');
             $table->text('konten');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->integer('updated_by');
             $table->integer('publish', 1);
             $table->timestamps();
