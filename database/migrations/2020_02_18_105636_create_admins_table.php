@@ -20,7 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('nama', 128);
             $table->string('tempat_lahir', 128);
             $table->date('tanggal_lahir');
-            $table->char('janis_kelamin', 10);
+            $table->char('janis_kelamin');
             $table->string('agama', 100);
             $table->text('alamat');
             $table->string('foto');
