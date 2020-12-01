@@ -19,7 +19,7 @@ class CreateInformationsTable extends Migration
             $table->text('konten');
             $table->integer('admin_id')->unsigned();
             $table->integer('updated_by')->nullable();
-            $table->integer('publish', 1)->nullable();
+            $table->char('publish', 1)->default('0');
             $table->timestamps();
         });
     }

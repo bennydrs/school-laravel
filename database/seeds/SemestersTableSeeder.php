@@ -12,7 +12,7 @@ class SemestersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::insert("INSERT INTO `semesters` (`id`, `kode_semester`, `semester`, `tahun_ajaran`, `created_at`, `updated_at`) values (1, 'SM192001', 'Genap', '2019/2020', '2020-02-14 22:06:45', '2020-02-14 22:06:45'),
+        DB::insert("INSERT INTO semesters (id, kode_semester, semester, tahun_ajaran, created_at, updated_at) values (1, 'SM192001', 'Genap', '2019/2020', '2020-02-14 22:06:45', '2020-02-14 22:06:45'),
         (2, 'SM192002', 'Ganjil', '2019/2020', '2020-02-14 22:12:43', '2020-02-14 22:12:43'),
         (4, 'SM212201', 'Genap', '2021/2022', '2020-03-03 21:16:22', '2020-03-03 21:16:22'),
         (5, 'SM212202', 'Ganjil', '2021/2022', '2020-03-03 21:17:26', '2020-03-03 21:17:26'),
