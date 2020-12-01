@@ -58,6 +58,7 @@
                         <input type="hidden" name="semester_id[]" value="{{$semester->id}}">
                         <input type="hidden" name="class_student_id[]" value="{{$student->id}}">
                         <input type="hidden" name="teacher_id[]" value="{{auth()->user()->teacher->id}}">
+                        <input type="hidden" name="student_id[]" value="{{ $student->student_id }}">
                         <input type="hidden" name="class_learn_id" value="{{$_GET['subject']}}">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $student->nama }}</td>

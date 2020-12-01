@@ -40,11 +40,11 @@
     </thead>
 
     <tbody>
-        @php
+        {{-- @php
         $sum = 0;
-        @endphp
+        @endphp --}}
         @foreach ($nilai->unique('subject_id') as $grade)
-        @php
+        {{-- @php
         $jmltugas = $grade->nilai_tugas_1 + $grade->nilai_tugas_2;
         $rata2tugas = $jmltugas / 2;
 
@@ -54,7 +54,7 @@
         $rata2 = $tugas + $uts + $uas;
 
         $sum += $rata2
-        @endphp
+        @endphp --}}
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>
@@ -74,18 +74,22 @@
                 {{ isset($grade->nilai_uas) ?  ucfirst($grade->nilai_uas)  : '-' }}
             </td>
             <td>
-                {{ (round($rata2,2)) ? (round($rata2,2))  : '-' }}
+                {{ (round($grade->rata2,2)) ? (round($grade->rata2,2))  : '-' }}
             </td>
         </tr>
 
         @endforeach
-        @php
-        // dd($semester_id);
+        <tr>
+            <td colspan="6" class="text-center text-bold">Rata-rata</td>
+            <td>
+                {{ (round($total, 2)) ? (round($total, 2))  : '-'  }}
+            </td>
+        </tr>
+        {{-- @php
         $ss = \App\Grade::where('class_student_id',$student->id)->where('semester_id',
         $semester)->get();
 
         $jm = count($ss);
-        // dd($jm);
         @endphp
         @php
         $jumlahData = count($nilai->unique('subject_id'));
@@ -95,9 +99,8 @@
             <td colspan="6" class="text-center text-bold">Rata-rata</td>
             <td>
                 {{ (round($sum / $jm, 2)) ? (round($sum / $jm, 2))  : '-'  }}
-                {{-- {{ $sum / $jumlahData }} --}}
-            </td>
+        </td>
         </tr>
-        @endif
+        @endif --}}
     </tbody>
 </table>

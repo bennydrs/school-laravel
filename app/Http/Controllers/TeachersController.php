@@ -193,18 +193,18 @@ class TeachersController extends Controller
     public function schedulesTeacher(Request $request)
     {
         $semesters = \App\Semester::all();
-        $schedules = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->where('semester_id', '=', $request->semester)->get();
+        $schedules = \App\Schedule::where('teacher_id', auth()->user()->teacher->id)->where('semester_id', $request->semester)->get();
         // $teacher = Teacher::find(auth()->user()->teacher->id);
         return view('user.guru.jadwal', compact('schedules', 'semesters'));
     }
 
     public function indexGradeTeacher(Request $request)
     {
-        $classes = \App\Schedule::where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $classes = \App\Schedule::where('teacher_id', auth()->user()->teacher->id)->get();
         $semesters = \App\Semester::all();
         $classSelected = \App\ClassRoom::find($request->kelas);
 
-        $grades = \App\Grade::where('class_room_id', '=', $request->kelas)->where('semester_id', '=', $request->semester)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $grades = \App\Grade::where('class_room_id', $request->kelas)->where('semester_id', $request->semester)->where('teacher_id', auth()->user()->teacher->id)->get();
 
         return view('user.guru.nilai.index', compact('classes', 'semesters', 'grades', 'classSelected'));
     }
@@ -216,12 +216,12 @@ class TeachersController extends Controller
         $semester = \App\Semester::find($semester_id);
         $class = \App\ClassRoom::find($class_id);
 
-        $schedule = \App\Schedule::where('class_room_id', '=', $class_id)->where('semester_id', '=', $semester_id)->where('teacher_id', '=', auth()->user()->teacher->id)->get();
+        $schedule = \App\Schedule::where('class_room_id', $class_id)->where('semester_id', $semester_id)->where('teacher_id', auth()->user()->teacher->id)->get();
 
         if ($request->all()) {
             $students = DB::table('class_students')->where('class_room_id', $class_id)
                 ->join('students', 'students.id', '=', 'class_students.student_id')
-                ->select('students.nama', 'class_students.*')
+                ->select('students.nama', 'students.id as student_id', 'class_students.*')
                 ->whereNotExists(function ($query) use ($id, $semester_id) {
                     $query->select(DB::raw(1))
                         ->from('grades')
@@ -251,6 +251,7 @@ class TeachersController extends Controller
                 'nilai_tugas_2' => $request->nilai_tugas_2[$key],
                 'nilai_uts' => $request->nilai_uts[$key],
                 'nilai_uas' => $request->nilai_uas[$key],
+                'student_id' => $request->student_id[$key],
             ]);
         }
         return redirect('teacher/grades?kelas=' . $request->class_room_id[$key] . '&semester=' . $request->semester_id[$key] . '')->with('status', 'Data nilai berhasil ditambah!');

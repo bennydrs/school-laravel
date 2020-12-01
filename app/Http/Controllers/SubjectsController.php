@@ -36,19 +36,13 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'kode_mapel' => 'required|unique:subjects',
+            'nama' => 'required'
+        ]);
+
         Subject::create($request->all());
         return redirect('/subjects')->with('status', 'Data mata pelajaran berhasil ditambah');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Subject $subject)
-    {
-        //
     }
 
     /**
@@ -71,6 +65,10 @@ class SubjectsController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
+        $request->validate([
+            'kode_mapel' => 'required',
+            'nama' => 'required'
+        ]);
         $subject = Subject::find($subject->id);
         $subject->update($request->all());
         $subject->save();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2020 at 03:43 AM
+-- Generation Time: May 23, 2020 at 05:53 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -144,6 +144,7 @@ CREATE TABLE `grades` (
   `class_room_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
   `class_student_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
   `nilai_tugas_1` char(3) NOT NULL,
   `nilai_tugas_2` char(3) NOT NULL,
@@ -157,15 +158,14 @@ CREATE TABLE `grades` (
 -- Dumping data for table `grades`
 --
 
-INSERT INTO `grades` (`id`, `class_learn_id`, `class_room_id`, `semester_id`, `class_student_id`, `teacher_id`, `nilai_tugas_1`, `nilai_tugas_2`, `nilai_uts`, `nilai_uas`, `created_at`, `updated_at`) VALUES
-(49, 10, 1, 1, 1, 3, '75', '80', '90', '85', '2020-03-04 22:28:13', '2020-03-04 22:28:13'),
-(51, 1, 1, 1, 1, 1, '80', '85', '80', '85', '2020-03-05 03:03:27', '2020-03-05 03:03:27'),
-(52, 1, 1, 1, 5, 1, '80', '75', '90', '85', '2020-03-08 04:01:08', '2020-03-08 04:01:08'),
-(53, 1, 1, 2, 6, 1, '80', '80', '90', '85', '2020-03-17 20:29:37', '2020-03-17 20:29:37'),
-(54, 10, 1, 1, 5, 3, '80', '80', '85', '85', '2020-03-17 21:45:15', '2020-03-17 21:45:15'),
-(55, 10, 1, 1, 6, 3, '80', '75', '80', '88', '2020-03-17 21:45:15', '2020-03-17 21:45:15'),
-(56, 1, 1, 2, 1, 1, '80', '85', '90', '85', '2020-03-17 21:52:14', '2020-03-17 21:52:14'),
-(58, 1, 1, 2, 5, 1, '80', '80', '90', '85', '2020-03-17 21:52:59', '2020-03-17 21:52:59');
+INSERT INTO `grades` (`id`, `class_learn_id`, `class_room_id`, `semester_id`, `class_student_id`, `student_id`, `teacher_id`, `nilai_tugas_1`, `nilai_tugas_2`, `nilai_uts`, `nilai_uas`, `created_at`, `updated_at`) VALUES
+(49, 10, 1, 1, 1, 6, 3, '75', '80', '90', '85', '2020-03-04 22:28:13', '2020-03-04 22:28:13'),
+(51, 1, 1, 1, 1, 6, 1, '80', '85', '80', '85', '2020-03-05 03:03:27', '2020-03-05 03:03:27'),
+(56, 1, 1, 2, 1, 6, 1, '80', '85', '90', '85', '2020-03-17 21:52:14', '2020-03-17 21:52:14'),
+(62, 1, 1, 1, 5, 12, 1, '80', '80', '90', '85', '2020-05-22 20:10:16', '2020-05-22 20:10:16'),
+(63, 1, 1, 1, 6, 14, 1, '80', '75', '80', '80', '2020-05-22 20:10:16', '2020-05-22 20:10:16'),
+(64, 1, 1, 2, 5, 12, 1, '80', '80', '90', '85', '2020-05-22 20:15:29', '2020-05-22 20:15:29'),
+(65, 1, 1, 2, 6, 14, 1, '80', '80', '90', '85', '2020-05-22 20:15:29', '2020-05-22 20:15:29');
 
 -- --------------------------------------------------------
 
@@ -420,11 +420,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `role`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(23, '20201000', 'siswa', 'Apri', 'apri@mail.com', NULL, '$2y$10$Fn7rNvoA.9uWHpOKGo/4q.xYGubrqnwL2ZbbfD/bgo9.cYZ8KgIBm', 'g7UVpHvBfjXxbAQ5KJmsF28viuUtG8hlMyXeQ4hzW04c0jrg5zMlgMwncID5', '2020-02-09 19:25:27', '2020-03-29 19:38:10'),
-(24, 'G1234', 'guru', 'Supardi', 'supardi@mail.com', NULL, '$2y$10$MpzZuI2LRl7qFTcr9/Sy9ezVbXqvLK4sG4W/SJeJHVi1bH8oWPho.', 'iAjhrLy4yrkSCSXGh3FjKM2ymYvwOg1KPNTgtLRzmtnGLzogVSjf36UrHw7u', '2020-02-09 21:41:40', '2020-02-09 21:41:40'),
+(23, '20201000', 'siswa', 'Apri', 'apri@mail.com', NULL, '$2y$10$Fn7rNvoA.9uWHpOKGo/4q.xYGubrqnwL2ZbbfD/bgo9.cYZ8KgIBm', 'q92EKwFzjhqXXfguv2zDmpJn7yVaWNYUuT7wqaQepUqYUw0Ilx8ynDbxuKx7', '2020-02-09 19:25:27', '2020-03-29 19:38:10'),
+(24, 'G1234', 'guru', 'Supardi', 'supardi@mail.com', NULL, '$2y$10$MpzZuI2LRl7qFTcr9/Sy9ezVbXqvLK4sG4W/SJeJHVi1bH8oWPho.', '6E8QqbiurcMHbC1RKM1TsJbhDxPESNpiuJwsI89HZ6lbxt44DjwJ0OXgqrrE', '2020-02-09 21:41:40', '2020-02-09 21:41:40'),
 (29, 'G1235', 'guru', 'Samson', 'samson@mail.com', NULL, '$2y$10$pvs48mb4u/w6dXPy1MQ9xObNTl4VYRN7AiPITwazFLi4l2J4YNFna', 'ODWlAZYvgxLU9FUmkE1Lu2t4JVtaNHg4WTduNUfx5DRZyqh7gSy2VaV9ut6j', '2020-02-11 19:13:33', '2020-02-11 19:13:33'),
 (30, 'G1236', 'guru', 'Sayuti', 'hgs@jdhd.com', NULL, '$2y$10$sXxNKPGogvwIefpVB20a.Oc/XjOdoCFfas.ZC9oUMNL/gRVDfrywe', '3M35PRNlm4PzBYEJE0PHIs5G7ESJmtuLLcVk89d5c6d6LXQrXuLpmMfPeU3y', '2020-02-12 20:12:28', '2020-02-12 20:12:28'),
-(36, '123456', 'admin', 'Zahir', 'zahir@mail.com', NULL, '$2y$10$PwmTNJ10UDEdHjvb1LCm0uRLUQm45KGh9piBTnR.9mF1hVQmHwiRS', 'gqSEQhEiAmiIxN5x9mMhBhMpPiU3ULud5cVVcTU1uHSsef3Hewt6C47xKT32', '2020-02-18 20:10:26', '2020-02-18 20:10:26'),
+(36, '123456', 'admin', 'Zahir', 'zahir@mail.com', NULL, '$2y$10$PwmTNJ10UDEdHjvb1LCm0uRLUQm45KGh9piBTnR.9mF1hVQmHwiRS', '9N2SzpSSrUR0ti8FLAUWtvXg0ejXBUyeNzwO7GiVZ6gaKly1NYsC9Bgibpoj', '2020-02-18 20:10:26', '2020-02-18 20:10:26'),
 (39, '20201001', 'siswa', 'Udin', 'udin@mail.com', NULL, '$2y$10$1uGt7YoU4yOEmUvr2Fg7Z.Xk.8Od0HztnbV4zXSNO0XdWZC650B5u', 'poecEQnPi3ivIlndqFUSMbfyoFUV0w1pJD8MLVlevGLlTWw0rwwHiDxHzV7d', '2020-02-26 20:42:38', '2020-02-26 20:42:38'),
 (40, '20201002', 'siswa', 'Izma', 'izma@mail.com', NULL, '$2y$10$ve6uGfsp3qB3wn2.COqj7.TrqMvyqvsLZ.A1agSHVng7KeTDF7ZLK', '4tFaz989sW8DD56FZoLUdHXcqj3xQxCcnmDJ3g6dLMuCa4taZxulzJvOeiSI', '2020-02-28 21:41:49', '2020-02-28 21:41:49'),
 (41, '20201003', 'siswa', 'Arif', 'arif@mail.com', NULL, '$2y$10$WeRmoZ/ghCtUUB8vI2FVxOxOhLRuIu8NiSAGkjD9a1CsHdeV77h8G', 'TkCVzEHcNdyTIO12qRAp9nssdBllsDRAqsZmzpRiM33zgEygT7US1Izs4IHZ', '2020-03-08 21:36:23', '2020-03-08 21:36:23'),
@@ -558,7 +558,7 @@ ALTER TABLE `class_students`
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `homeroom_teachers`

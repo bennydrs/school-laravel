@@ -24,28 +24,11 @@
                      <th>Nama</th>
                      <th>Jenis Kelamin</th>
                      <th>Alamat</th>
-                     {{-- <th>Kelas</th> --}}
                      <th>Aksi</th>
                   </tr>
                </thead>
                <tbody>
-                  {{-- @foreach ($students as $student)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                  <td>{{ $student->nis }}</td>
-                  <td>{{ $student->nama }}</td>
-                  <td>{{ $student->jenis_kelamin }}</td>
-                  <td>
-                     <a href="/students/{{ $student->id }}" class="btn btn-info btn-sm">detail</a>
-                     <a href="/students/{{ $student->id }}/edit" class="btn btn-warning btn-sm">edit</a>
-                     <form action="/students/{{$student->id}}" method="post" class="d-inline delete">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger btn-sm">hapus</button>
-                     </form>
-                  </td>
-                  </tr>
-                  @endforeach --}}
+
                </tbody>
             </table>
          </div>
