@@ -14,7 +14,7 @@ class CreateInformationsTable extends Migration
     public function up()
     {
         Schema::create('informations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('judul');
             $table->text('konten');
             $table->integer('user_id')->unsigned();
