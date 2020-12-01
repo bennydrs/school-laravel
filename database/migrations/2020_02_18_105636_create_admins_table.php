@@ -24,7 +24,7 @@ class CreateAdminsTable extends Migration
             $table->string('agama', 100);
             $table->char('telp', 15);
             $table->text('alamat');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

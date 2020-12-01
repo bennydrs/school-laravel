@@ -14,13 +14,12 @@ class CreateInformationsTable extends Migration
     public function up()
     {
         Schema::create('informations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('judul');
             $table->text('konten');
             $table->integer('admin_id')->unsigned();
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->integer('updated_by');
-            $table->integer('publish', 1);
+            $table->integer('updated_by')->nullable();
+            $table->integer('publish', 1)->nullable();
             $table->timestamps();
         });
     }
